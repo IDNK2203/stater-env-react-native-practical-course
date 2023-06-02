@@ -1,0 +1,12 @@
+{
+  "name": "stater-env-react-native-practical-course",
+  "version": "1.0.0",
+  "description": "This repository will content of code writing by the learner (me ✌) in an to complete the course.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
