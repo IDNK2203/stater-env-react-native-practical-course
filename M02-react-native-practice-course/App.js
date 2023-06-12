@@ -12,6 +12,10 @@ export default function App() {
     ]);
   };
 
+  const deleteGoalHandler = (id) => {
+    setGoalsList((goals) => goals.filter((item) => item.id !== id));
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -25,7 +29,9 @@ export default function App() {
         <FlatList
           data={goalsList}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <GoalItem item={item} />}
+          renderItem={({ item }) => (
+            <GoalItem item={item} deleteGoalHandler={deleteGoalHandler} />
+          )}
         />
       </View>
     </View>
