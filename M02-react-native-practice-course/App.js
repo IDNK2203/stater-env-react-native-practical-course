@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, FlatList, Button } from "react-native";
 import { useState } from "react";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
+import { StatusBar } from "expo-status-bar";
 export default function App() {
   const [goalsList, setGoalsList] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);
@@ -22,34 +23,41 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.heading}>Goal Setter🎯!</Text>
-      </View>
-      <View style={styles.btn}>
-        <Button onPress={toggleModalSwitch} color='#904E55' title='Add Goal' />
-      </View>
+    <>
+      <StatusBar style='dark' />
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.heading}>Goal Setter🎯!</Text>
+        </View>
+        <View style={styles.btn}>
+          <Button
+            onPress={toggleModalSwitch}
+            color='#904E55'
+            title='Add Goal'
+          />
+        </View>
 
-      <GoalInput
-        addGoalHandler={addGoalHandler}
-        modalSwitch={modalSwitch}
-        toggleModalSwitch={toggleModalSwitch}
-      />
-
-      <View style={styles.goalsContainer}>
-        {goalsList.length !== 0 && (
-          <Text style={styles.goalsHeading}> List of Goals</Text>
-        )}
-
-        <FlatList
-          data={goalsList}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <GoalItem item={item} deleteGoalHandler={deleteGoalHandler} />
-          )}
+        <GoalInput
+          addGoalHandler={addGoalHandler}
+          modalSwitch={modalSwitch}
+          toggleModalSwitch={toggleModalSwitch}
         />
+
+        <View style={styles.goalsContainer}>
+          {goalsList.length !== 0 && (
+            <Text style={styles.goalsHeading}> List of Goals</Text>
+          )}
+
+          <FlatList
+            data={goalsList}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <GoalItem item={item} deleteGoalHandler={deleteGoalHandler} />
+            )}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -57,7 +65,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 30,
     flex: 1,
-    backgroundColor: "#F2EFE9",
   },
   heading: {
     textAlign: "center",
