@@ -1,9 +1,21 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "../components/Button";
+import { useState } from "react";
 
 export default function StartGame() {
+  const [inputvalue, setInputValue] = useState("13");
+
+  const textChangeHandler = (text) => {
+    setInputValue(text);
+  };
+
+  const submitNumberHandler = () => {
+    // check user input
+    console.log("check user input");
+  };
+
   return (
-    <View style={styles.screenContainer}>
+    <View style={styles.container}>
       <View style={styles.headingContainer}>
         <Text style={styles.heading}>Pick a Number🔢!</Text>
         <Text style={styles.subtitle}>any Number</Text>
@@ -12,13 +24,14 @@ export default function StartGame() {
         <TextInput
           style={styles.numberInput}
           maxLength={2}
+          onChangeText={textChangeHandler}
           cursorColor={"#FFC857"}
           keyboardType='number-pad'
-          // value=""
+          value={inputvalue}
         />
         <View style={styles.btnContainer}>
           <View style={styles.btnWidth}>
-            <PrimaryButton>Cancel</PrimaryButton>
+            <PrimaryButton onPress={submitNumberHandler}>Cancel</PrimaryButton>
           </View>
           <View style={styles.btnWidth}>
             <PrimaryButton primary>Start</PrimaryButton>
@@ -30,11 +43,9 @@ export default function StartGame() {
 }
 
 const styles = StyleSheet.create({
-  screenContainer: {
-    padding: 16,
+  container: {
     paddingTop: 50,
-    flex: 1,
-    backgroundColor: "#fff1d4ae",
+    padding: 16,
   },
   heading: {
     textAlign: "center",
@@ -49,7 +60,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: "#FFC857",
+    color: "#412234",
     fontWeight: "bold",
     textTransform: "capitalize",
     textAlign: "center",
