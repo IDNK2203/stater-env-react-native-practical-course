@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 
-const PrimaryButton = ({ children, primary, submitNumberHandler }) => {
+const PrimaryButton = ({ children, primary, onPresshandler }) => {
   return (
     <View
       style={[styles.outerBtnContainer, primary ? null : styles.secondaryBtn]}
@@ -12,7 +12,7 @@ const PrimaryButton = ({ children, primary, submitNumberHandler }) => {
             : [styles.innerBtnContainer]
         }
         android_ripple={{ color: "#e2e2e2" }}
-        onPress={submitNumberHandler}
+        onPress={onPresshandler}
       >
         <Text style={styles.btnText}>{children}</Text>
       </Pressable>

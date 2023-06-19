@@ -1,35 +1,31 @@
-import { StyleSheet, Text, View, FlatList, Button } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
   return (
-    <>
-      <StatusBar style='dark' />
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.heading}>Goal Setter🎯!</Text>
-        </View>
-        <View style={styles.btn}>
-          <Button
-            onPress={toggleModalSwitch}
-            color='#904E55'
-            title='Add Goal'
-          />
-        </View>
-      </View>
-    </>
+    <LinearGradient
+      colors={["#fff1d4ae", "#412234"]}
+      style={styles.screenContainer}
+    >
+      <ImageBackground
+        source={require("./assets/images/background.png")}
+        style={styles.screenContainer}
+        resizeMode='cover'
+        imageStyle={styles.backgroundImage}
+      >
+        <SafeAreaView style={styles.screenContainer}>
+          <Game></Game>
+        </SafeAreaView>
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 30,
+  screenContainer: {
     flex: 1,
   },
-  heading: {
-    textAlign: "center",
-    fontSize: 24,
-    margin: 16,
-    marginTop: 24,
+  backgroundImage: {
+    opacity: 0.2,
   },
 });

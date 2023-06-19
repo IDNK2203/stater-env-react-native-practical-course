@@ -1,17 +1,30 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "../components/Button";
 import { useState } from "react";
 
-export default function StartGame() {
+export default function StartGame({ setUserPickedValidNumber }) {
   const [inputvalue, setInputValue] = useState("13");
 
   const textChangeHandler = (text) => {
     setInputValue(text);
   };
 
+  const resetInput = () => {
+    setInputValue("");
+  };
+
   const submitNumberHandler = () => {
     // check user input
-    console.log("check user input");
+    const parsedInput = parseInt(inputvalue);
+
+    if (isNaN(parsedInput) || parsedInput <= 0 || parsedInput >= 99) {
+      Alert.alert("Invalid user Input", "Input must be between 0 and 99", [
+        { text: "okay", onPress: resetInput, style: "destructive" },
+      ]);
+
+      return;
+    }
+    setUserPickedValidNumber();
   };
 
   return (
@@ -31,10 +44,12 @@ export default function StartGame() {
         />
         <View style={styles.btnContainer}>
           <View style={styles.btnWidth}>
-            <PrimaryButton onPress={submitNumberHandler}>Cancel</PrimaryButton>
+            <PrimaryButton onPresshandler={resetInput}>Cancel</PrimaryButton>
           </View>
           <View style={styles.btnWidth}>
-            <PrimaryButton primary>Start</PrimaryButton>
+            <PrimaryButton onPresshandler={submitNumberHandler} primary>
+              Start
+            </PrimaryButton>
           </View>
         </View>
       </View>
