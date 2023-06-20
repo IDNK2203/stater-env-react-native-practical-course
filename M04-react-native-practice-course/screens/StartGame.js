@@ -1,8 +1,10 @@
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "../components/Button";
 import { useState } from "react";
+import Heading from "../components/Heading";
+import Colors from "../utils/colors";
 
-export default function StartGame({ setUserPickedValidNumber }) {
+export default function StartGame({ setUserValidNumber }) {
   const [inputvalue, setInputValue] = useState("13");
 
   const textChangeHandler = (text) => {
@@ -24,21 +26,20 @@ export default function StartGame({ setUserPickedValidNumber }) {
 
       return;
     }
-    setUserPickedValidNumber();
+    setUserValidNumber(parsedInput);
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.headingContainer}>
-        <Text style={styles.heading}>Pick a Number🔢!</Text>
+      <Heading headingText={"Pick a Number🔢!"}>
         <Text style={styles.subtitle}>any Number</Text>
-      </View>
+      </Heading>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.numberInput}
           maxLength={2}
           onChangeText={textChangeHandler}
-          cursorColor={"#FFC857"}
+          cursorColor={Colors.secondary500}
           keyboardType='number-pad'
           value={inputvalue}
         />
@@ -62,26 +63,15 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     padding: 16,
   },
-  heading: {
-    textAlign: "center",
-    fontSize: 24,
-    margin: 16,
-    marginTop: 24,
-    marginBottom: 0,
-    color: "#2E4052",
-  },
-  headingContainer: {
-    margin: 10,
-  },
   subtitle: {
     fontSize: 14,
-    color: "#412234",
+    color: Colors.primary,
     fontWeight: "bold",
     textTransform: "capitalize",
     textAlign: "center",
   },
   inputContainer: {
-    backgroundColor: "#412234",
+    backgroundColor: Colors.primary,
     marginVertical: 16,
     padding: 16,
     borderRadius: 8,
@@ -93,14 +83,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   numberInput: {
-    borderColor: "#FFC857",
+    borderColor: Colors.secondary500,
     borderWidth: 2,
     borderRadius: 30,
     marginHorizontal: "auto",
     height: 50,
     width: 150,
     margin: 20,
-    color: "#FFC857",
+    color: Colors.secondary500,
     fontSize: 32,
     fontWeight: "bold",
     textAlign: "center",

@@ -1,11 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
+import Heading from "../components/Heading";
+import Colors from "../utils/colors";
+import GuessedNumber from "../components/GuessedNumber";
+import { useState } from "react";
 
-const Game = () => {
+const Game = ({ userValidNumber }) => {
+  const initialGuess = generateRandomBetween(1, 100, userValidNumber);
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  function generateRandomBetween(min, max, exclude) {
+    const rndNum = Math.floor(Math.random() * (max - min)) + min;
+
+    if (rndNum === exclude) {
+      return generateRandomBetween(min, max, exclude);
+    } else {
+      return rndNum;
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Opponent's Guesses </Text>
-      </View>
+      <Heading headingText={"Opponent's Guesses "} />
+      <GuessedNumber>{currentGuess}</GuessedNumber>
       <View>
         <Text>Higher or Lower</Text>
       </View>
@@ -22,54 +38,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
     padding: 16,
-  },
-  heading: {
-    textAlign: "center",
-    fontSize: 24,
-    margin: 16,
-    marginTop: 24,
-    marginBottom: 0,
-    color: "#2E4052",
-  },
-  headingContainer: {
-    margin: 10,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#412234",
-    fontWeight: "bold",
-    textTransform: "capitalize",
-    textAlign: "center",
-  },
-  inputContainer: {
-    backgroundColor: "#412234",
-    marginVertical: 16,
-    padding: 16,
-    borderRadius: 8,
-    elevation: 10,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
     alignItems: "center",
-  },
-  numberInput: {
-    borderColor: "#FFC857",
-    borderWidth: 2,
-    borderRadius: 30,
-    marginHorizontal: "auto",
-    height: 50,
-    width: 150,
-    margin: 20,
-    color: "#FFC857",
-    fontSize: 32,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  btnContainer: {
-    flexDirection: "row",
-  },
-  btnWidth: {
-    flex: 1,
+    justifyContent: "center",
   },
 });

@@ -3,22 +3,23 @@ import StartGame from "./screens/StartGame";
 import Game from "./screens/Game";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
+import Colors from "./utils/colors";
 
 export default function App() {
-  const [userPickedValidNumber, setUserPickedValidNumber] = useState(false);
+  const [userValidNumber, setUserValidNumber] = useState(null);
 
-  const toggleUserScreen = () => {
-    setUserPickedValidNumber((e) => !e);
-  };
+  // const toggleUserScreen = () => {
+  //   setUserValidNumber((e) => !e);
+  // };
 
-  let screen = <StartGame setUserPickedValidNumber={toggleUserScreen} />;
-  if (userPickedValidNumber) {
-    screen = <Game />;
+  let screen = <StartGame setUserValidNumber={setUserValidNumber} />;
+  if (userValidNumber) {
+    screen = <Game userValidNumber={userValidNumber} />;
   }
 
   return (
     <LinearGradient
-      colors={["#fff1d4ae", "#412234"]}
+      colors={[Colors.secondary100, Colors.primary]}
       style={styles.screenContainer}
     >
       <ImageBackground
