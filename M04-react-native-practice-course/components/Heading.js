@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 0,
     color: Colors._accent,
+    textTransform: "capitalize",
+    fontWeight: "500",
   },
   headingContainer: {
     margin: 10,

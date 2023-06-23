@@ -1,29 +1,79 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import Heading from "../components/Heading";
+import { useEffect, useRef, useState } from "react";
+import PrimaryButton from "../components/Button";
+import Card from "../components/Card";
+import Itext from "../components/Itext";
 import Colors from "../utils/colors";
-import GuessedNumber from "../components/GuessedNumber";
-import { useState } from "react";
 
-const Game = ({ userValidNumber }) => {
-  const initialGuess = generateRandomBetween(1, 100, userValidNumber);
-  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+let minB = 1;
+let maxB = 100;
 
-  function generateRandomBetween(min, max, exclude) {
-    const rndNum = Math.floor(Math.random() * (max - min)) + min;
-
-    if (rndNum === exclude) {
-      return generateRandomBetween(min, max, exclude);
-    } else {
-      return rndNum;
-    }
+function generateRandomBtw(min, max, exclude) {
+  const rndNum = Math.floor(Math.random() * (max - min)) + min;
+  if (rndNum === exclude) {
+    return generateRandomBtw(min, max, exclude);
+  } else {
+    return rndNum;
   }
+}
+
+const Game = ({ userValidNumber, gameoverHandler }) => {
+  const [currentGuess, setCurrentGuess] = useState(0);
+  useEffect(() => {
+    setCurrentGuess(generateRandomBtw(minB, maxB, userValidNumber));
+  }, []);
+
+  useEffect(() => {
+    if (currentGuess === userValidNumber) {
+      gameoverHandler();
+    }
+  }, [currentGuess, userValidNumber]);
+
+  const guideNumberGuess = (direction) => {
+    if (
+      (userValidNumber > currentGuess && direction === "lower") ||
+      (userValidNumber < currentGuess && direction === "higher")
+    ) {
+      Alert.alert("Misleading Hint", "Don't cheat the computer", [
+        { text: "Cancel", style: "cancel" },
+      ]);
+      return;
+    }
+
+    if (direction === "lower") {
+      maxB = currentGuess;
+    } else {
+      minB = currentGuess + 1;
+    }
+    const gNumber = generateRandomBtw(minB, maxB, currentGuess);
+    setCurrentGuess(gNumber);
+  };
 
   return (
     <View style={styles.container}>
-      <Heading headingText={"Opponent's Guesses "} />
-      <GuessedNumber>{currentGuess}</GuessedNumber>
-      <View>
-        <Text>Higher or Lower</Text>
+      <Heading headingText={"Is this your number ?🤔"} />
+      <Card style={styles.guessNumberCard}>
+        <Itext>{currentGuess}</Itext>
+      </Card>
+      <View style={styles.crtlsContainer}>
+        <Text style={styles.crtlsText}>Higher or Lower</Text>
+        <View style={styles.btnContainer}>
+          <View style={styles.btnWidth}>
+            <PrimaryButton
+              onPresshandler={guideNumberGuess.bind(this, "lower")}
+            >
+              -
+            </PrimaryButton>
+          </View>
+          <View style={styles.btnWidth}>
+            <PrimaryButton
+              onPresshandler={guideNumberGuess.bind(this, "higher")}
+            >
+              +
+            </PrimaryButton>
+          </View>
+        </View>
       </View>
       <View>
         <Text>Log Rounds</Text>
@@ -38,7 +88,24 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
     padding: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flex: 1,
+  },
+  crtlsContainer: {
+    width: "100%",
+  },
+  guessNumberCard: {
+    backgroundColor: Colors.secondary500,
+  },
+  crtlsText: {
+    textAlign: "center",
+    marginVertical: 16,
+    fontSize: 20,
+  },
+  btnContainer: {
+    flexDirection: "row",
+  },
+  btnWidth: {
+    flex: 1,
   },
 });

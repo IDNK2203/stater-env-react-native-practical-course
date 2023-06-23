@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import Colors from "../utils/colors";
 
-const PrimaryButton = ({ children, primary, onPresshandler }) => {
+const PrimaryButton = ({ children, primary, onPresshandler, disabled }) => {
   return (
     <View
       style={[styles.outerBtnContainer, primary ? null : styles.secondaryBtn]}
     >
       <Pressable
+        disabled={disabled}
         style={({ pressed }) =>
           pressed
             ? [styles.innerBtnContainer, pressed]

@@ -3,6 +3,7 @@ import PrimaryButton from "../components/Button";
 import { useState } from "react";
 import Heading from "../components/Heading";
 import Colors from "../utils/colors";
+import Card from "../components/Card";
 
 export default function StartGame({ setUserValidNumber }) {
   const [inputvalue, setInputValue] = useState("13");
@@ -34,7 +35,7 @@ export default function StartGame({ setUserValidNumber }) {
       <Heading headingText={"Pick a Number🔢!"}>
         <Text style={styles.subtitle}>any Number</Text>
       </Heading>
-      <View style={styles.inputContainer}>
+      <Card>
         <TextInput
           style={styles.numberInput}
           maxLength={2}
@@ -53,7 +54,7 @@ export default function StartGame({ setUserValidNumber }) {
             </PrimaryButton>
           </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 }
@@ -69,18 +70,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "capitalize",
     textAlign: "center",
-  },
-  inputContainer: {
-    backgroundColor: Colors.primary,
-    marginVertical: 16,
-    padding: 16,
-    borderRadius: 8,
-    elevation: 10,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    alignItems: "center",
   },
   numberInput: {
     borderColor: Colors.secondary500,
