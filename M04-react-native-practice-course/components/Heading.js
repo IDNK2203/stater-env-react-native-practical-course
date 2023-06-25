@@ -15,6 +15,7 @@ export default Heading;
 
 const styles = StyleSheet.create({
   heading: {
+    fontFamily: "open-sans-bold",
     textAlign: "center",
     fontSize: 24,
     margin: 16,

@@ -1,10 +1,11 @@
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import Heading from "../components/Heading";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import PrimaryButton from "../components/Button";
 import Card from "../components/Card";
 import Itext from "../components/Itext";
 import Colors from "../utils/colors";
+import { Ionicons } from "@expo/vector-icons";
 
 let minB = 1;
 let maxB = 100;
@@ -26,14 +27,18 @@ const Game = ({ userValidNumber, gameoverHandler }) => {
 
   useEffect(() => {
     if (currentGuess === userValidNumber) {
+      Alert.alert("You have won the Game", "Congratulations 🥳", [
+        { text: "Cancel", style: "cancel" },
+      ]);
       gameoverHandler();
+      console.log("you have won");
     }
   }, [currentGuess, userValidNumber]);
 
   const guideNumberGuess = (direction) => {
     if (
-      (userValidNumber > currentGuess && direction === "lower") ||
-      (userValidNumber < currentGuess && direction === "higher")
+      (userValidNumber >= currentGuess && direction === "lower") ||
+      (userValidNumber <= currentGuess && direction === "higher")
     ) {
       Alert.alert("Misleading Hint", "Don't cheat the computer", [
         { text: "Cancel", style: "cancel" },
@@ -63,14 +68,19 @@ const Game = ({ userValidNumber, gameoverHandler }) => {
             <PrimaryButton
               onPresshandler={guideNumberGuess.bind(this, "lower")}
             >
-              -
+              <Ionicons name='md-remove' size={24} color={Colors.primary} />
             </PrimaryButton>
           </View>
           <View style={styles.btnWidth}>
             <PrimaryButton
               onPresshandler={guideNumberGuess.bind(this, "higher")}
             >
-              +
+              <Ionicons
+                name='md-add'
+                size={24}
+                color={Colors.primary}
+                style={{ fontWeight: "bold" }}
+              />
             </PrimaryButton>
           </View>
         </View>

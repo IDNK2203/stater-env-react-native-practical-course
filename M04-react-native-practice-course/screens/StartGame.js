@@ -4,6 +4,7 @@ import { useState } from "react";
 import Heading from "../components/Heading";
 import Colors from "../utils/colors";
 import Card from "../components/Card";
+import Label from "../components/Label";
 
 export default function StartGame({ setUserValidNumber }) {
   const [inputvalue, setInputValue] = useState("13");
@@ -36,6 +37,7 @@ export default function StartGame({ setUserValidNumber }) {
         <Text style={styles.subtitle}>any Number</Text>
       </Heading>
       <Card>
+        <Label>Enter your Number</Label>
         <TextInput
           style={styles.numberInput}
           maxLength={2}
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
     height: 50,
     width: 150,
-    margin: 20,
+    marginBottom: 20,
     color: Colors.secondary500,
     fontSize: 32,
     fontWeight: "bold",
