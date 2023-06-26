@@ -1,8 +1,20 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import Heading from "../components/Heading";
 import Colors from "../utils/colors";
+import PrimaryButton from "../components/Button";
 
-export default function GameOver() {
+export default function GameOver({
+  userValidNumber,
+  setUserValidNumber,
+  gameoverHandler,
+  roundCount,
+}) {
+  const restartGame = () => {
+    roundCount.current = 0;
+    setUserValidNumber(null);
+    gameoverHandler();
+  };
+
   return (
     <View style={styles.container}>
       <Heading headingText={"Challenge Completed 🚀"} />
@@ -14,8 +26,16 @@ export default function GameOver() {
       </View>
       <View style={styles.summaryContainer}>
         <Text style={styles.summary}>
-          You took X number of rounds to guess the number Y
+          You took
+          <Text style={styles.summaryHighlight}> {roundCount.current} </Text>
+          number of rounds to guess the number{" "}
+          <Text style={styles.summaryHighlight}>{userValidNumber}</Text>
         </Text>
+      </View>
+      <View style={styles.btnWidth}>
+        <PrimaryButton primary onPresshandler={restartGame}>
+          Restart
+        </PrimaryButton>
       </View>
     </View>
   );
@@ -47,5 +67,11 @@ const styles = StyleSheet.create({
   summary: {
     fontSize: 16,
     textAlign: "center",
+  },
+  summaryHighlight: {
+    fontWeight: "bold",
+  },
+  btnWidth: {
+    width: "60%",
   },
 });

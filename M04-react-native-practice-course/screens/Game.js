@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import Heading from "../components/Heading";
 import { useEffect, useState } from "react";
 import PrimaryButton from "../components/Button";
@@ -10,17 +10,10 @@ import { Ionicons } from "@expo/vector-icons";
 let minB = 1;
 let maxB = 100;
 
-function generateRandomBtw(min, max, exclude) {
-  const rndNum = Math.floor(Math.random() * (max - min)) + min;
-  if (rndNum === exclude) {
-    return generateRandomBtw(min, max, exclude);
-  } else {
-    return rndNum;
-  }
-}
-
-const Game = ({ userValidNumber, gameoverHandler }) => {
+const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
   const [currentGuess, setCurrentGuess] = useState(0);
+  const [guessNumberRounds, setGuessNumberRounds] = useState([]);
+
   useEffect(() => {
     setCurrentGuess(generateRandomBtw(minB, maxB, userValidNumber));
   }, []);
@@ -30,10 +23,22 @@ const Game = ({ userValidNumber, gameoverHandler }) => {
       Alert.alert("You have won the Game", "Congratulations 🥳", [
         { text: "Cancel", style: "cancel" },
       ]);
+      minB = 1;
+      maxB = 100;
       gameoverHandler();
-      console.log("you have won");
     }
   }, [currentGuess, userValidNumber]);
+
+  function generateRandomBtw(min, max, exclude) {
+    const rndNum = Math.floor(Math.random() * (max - min)) + min;
+    if (rndNum === exclude) {
+      return generateRandomBtw(min, max, exclude);
+    } else {
+      roundCount.current += 1;
+      setGuessNumberRounds((values) => [rndNum, ...values]);
+      return rndNum;
+    }
+  }
 
   const guideNumberGuess = (direction) => {
     if (
@@ -86,7 +91,11 @@ const Game = ({ userValidNumber, gameoverHandler }) => {
         </View>
       </View>
       <View>
-        <Text>Log Rounds</Text>
+        <FlatList
+          data={guessNumberRounds}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => <Text> {item} </Text>}
+        />
       </View>
     </View>
   );

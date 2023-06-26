@@ -2,7 +2,7 @@ import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import StartGame from "./screens/StartGame";
 import Game from "./screens/Game";
 import { LinearGradient } from "expo-linear-gradient";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Colors from "./utils/colors";
 import GameOver from "./screens/GameOver";
 import { useFonts } from "expo-font";
@@ -14,6 +14,7 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [userValidNumber, setUserValidNumber] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+  const roundCount = useRef(0);
 
   const [fontsLoaded] = useFonts({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
@@ -30,26 +31,34 @@ export default function App() {
     return null;
   }
 
-  // const toggleUserScreen = () => {
-  //   setUserValidNumber((e) => !e);
-  // };
+  const toggleUserScreen = (value) => {
+    setUserValidNumber(value);
+  };
 
   const gameoverHandler = () => {
     setGameOver((e) => !e);
   };
 
-  let screen = <StartGame setUserValidNumber={setUserValidNumber} />;
+  let screen = <StartGame setUserValidNumber={toggleUserScreen} />;
   if (userValidNumber) {
     screen = (
       <Game
         userValidNumber={userValidNumber}
         gameoverHandler={gameoverHandler}
+        roundCount={roundCount}
       />
     );
   }
 
   if (gameOver) {
-    screen = <GameOver />;
+    screen = (
+      <GameOver
+        roundCount={roundCount}
+        userValidNumber={userValidNumber}
+        setUserValidNumber={toggleUserScreen}
+        gameoverHandler={gameoverHandler}
+      />
+    );
   }
 
   return (
