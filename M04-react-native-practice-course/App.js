@@ -50,7 +50,7 @@ export default function App() {
     );
   }
 
-  if (gameOver) {
+  if (userValidNumber && gameOver) {
     screen = (
       <GameOver
         roundCount={roundCount}

@@ -6,6 +6,7 @@ import Card from "../components/Card";
 import Itext from "../components/Itext";
 import Colors from "../utils/colors";
 import { Ionicons } from "@expo/vector-icons";
+import RoundLog from "../components/RoundLog";
 
 let minB = 1;
 let maxB = 100;
@@ -14,6 +15,7 @@ const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
   const [currentGuess, setCurrentGuess] = useState(0);
   const [guessNumberRounds, setGuessNumberRounds] = useState([]);
 
+  const roundNumber = guessNumberRounds.length;
   useEffect(() => {
     setCurrentGuess(generateRandomBtw(minB, maxB, userValidNumber));
   }, []);
@@ -90,11 +92,13 @@ const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
           </View>
         </View>
       </View>
-      <View>
+      <View style={styles.listContainer}>
         <FlatList
           data={guessNumberRounds}
           keyExtractor={(item) => item}
-          renderItem={({ item }) => <Text> {item} </Text>}
+          renderItem={({ item, index }) => (
+            <RoundLog index={roundNumber - index}> {item} </RoundLog>
+          )}
         />
       </View>
     </View>
@@ -104,6 +108,10 @@ const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
 export default Game;
 
 const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+    paddingVertical: 16,
+  },
   container: {
     paddingTop: 50,
     padding: 16,
@@ -115,6 +123,13 @@ const styles = StyleSheet.create({
   },
   guessNumberCard: {
     backgroundColor: Colors.secondary500,
+    borderColor: Colors.primary,
+    borderWidth: 3,
+    elevation: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
   },
   crtlsText: {
     textAlign: "center",
