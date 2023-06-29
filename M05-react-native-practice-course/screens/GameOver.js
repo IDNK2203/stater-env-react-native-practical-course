@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Heading from "../components/Heading";
 import Colors from "../utils/colors";
 import PrimaryButton from "../components/Button";
@@ -41,6 +41,7 @@ export default function GameOver({
   );
 }
 
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
@@ -49,9 +50,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imgContainer: {
-    height: 240,
-    width: 240,
-    borderRadius: 120,
+    height: deviceWidth > 320 ? 280 : 180,
+    width: deviceWidth > 320 ? 280 : 180,
+    borderRadius: deviceWidth > 320 ? 140 : 90,
     borderWidth: 8,
     borderColor: Colors.secondary500,
     overflow: "hidden",

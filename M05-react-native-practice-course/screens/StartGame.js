@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
     padding: 16,
+    alignItems: "center",
   },
   subtitle: {
     fontSize: 14,

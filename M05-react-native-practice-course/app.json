@@ -3,7 +3,7 @@
     "name": "M02-react-native-practical-course",
     "slug": "M02-react-native-practical-course",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "backgroundColor": "#F2EFE9",
     "userInterfaceStyle": "light",
