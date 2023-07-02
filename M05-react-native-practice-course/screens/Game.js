@@ -1,4 +1,11 @@
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Heading from "../components/Heading";
 import { useEffect, useState } from "react";
 import PrimaryButton from "../components/Button";
@@ -12,6 +19,7 @@ let minB = 1;
 let maxB = 100;
 
 const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
+  const { width } = useWindowDimensions();
   const [currentGuess, setCurrentGuess] = useState(0);
   const [guessNumberRounds, setGuessNumberRounds] = useState([]);
 
@@ -62,9 +70,8 @@ const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
     setCurrentGuess(gNumber);
   };
 
-  return (
-    <View style={styles.container}>
-      <Heading headingText={"Is this your number ?🤔"} />
+  let content = (
+    <>
       <Card style={styles.guessNumberCard}>
         <Itext>{currentGuess}</Itext>
       </Card>
@@ -92,6 +99,48 @@ const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
           </View>
         </View>
       </View>
+    </>
+  );
+
+  let DynPaddingTop = 50;
+  if (width > 500) {
+    DynPaddingTop = 25;
+    content = (
+      <>
+        <View style={styles.crtlsContainer}>
+          <View style={styles.btnContainer}>
+            <View style={styles.btnWidth}>
+              <PrimaryButton
+                onPresshandler={guideNumberGuess.bind(this, "lower")}
+              >
+                <Ionicons name='md-remove' size={24} color={Colors.primary} />
+              </PrimaryButton>
+            </View>
+            <Card style={[styles.guessNumberCard, styles.btnWidth]}>
+              <Itext>{currentGuess}</Itext>
+            </Card>
+            <View style={styles.btnWidth}>
+              <PrimaryButton
+                onPresshandler={guideNumberGuess.bind(this, "higher")}
+              >
+                <Ionicons
+                  name='md-add'
+                  size={24}
+                  color={Colors.primary}
+                  style={{ fontWeight: "bold" }}
+                />
+              </PrimaryButton>
+            </View>
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={[styles.container, { paddingTop: DynPaddingTop }]}>
+      <Heading headingText={"your number ?🤔"} />
+      {content}
       <View style={styles.listContainer}>
         <FlatList
           data={guessNumberRounds}
@@ -108,15 +157,17 @@ const Game = ({ userValidNumber, gameoverHandler, roundCount }) => {
 export default Game;
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    paddingVertical: 16,
-  },
   container: {
-    paddingTop: 50,
+    // paddingTop: 50,
     padding: 16,
     justifyContent: "flex-start",
     flex: 1,
+    alignItems: "center",
+  },
+  listContainer: {
+    width: "100%",
+    flex: 1,
+    paddingVertical: 16,
   },
   crtlsContainer: {
     width: "100%",
@@ -130,6 +181,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 6,
+    width: "100%",
   },
   crtlsText: {
     textAlign: "center",
@@ -138,6 +190,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     flexDirection: "row",
+    alignItems: "center",
   },
   btnWidth: {
     flex: 1,

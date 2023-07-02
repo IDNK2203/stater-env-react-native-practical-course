@@ -1,4 +1,14 @@
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import PrimaryButton from "../components/Button";
 import { useState } from "react";
 import Heading from "../components/Heading";
@@ -8,6 +18,7 @@ import Label from "../components/Label";
 
 export default function StartGame({ setUserValidNumber }) {
   const [inputvalue, setInputValue] = useState("13");
+  const { width, height } = useWindowDimensions();
 
   const textChangeHandler = (text) => {
     setInputValue(text);
@@ -31,39 +42,51 @@ export default function StartGame({ setUserValidNumber }) {
     setUserValidNumber(parsedInput);
   };
 
+  const paddingTopValue = height < 400 ? 15 : 50;
+
   return (
-    <View style={styles.container}>
-      <Heading headingText={"Pick a Number🔢!"}>
-        <Text style={styles.subtitle}>any Number</Text>
-      </Heading>
-      <Card>
-        <Label>Enter your Number</Label>
-        <TextInput
-          style={styles.numberInput}
-          maxLength={2}
-          onChangeText={textChangeHandler}
-          cursorColor={Colors.secondary500}
-          keyboardType='number-pad'
-          value={inputvalue}
-        />
-        <View style={styles.btnContainer}>
-          <View style={styles.btnWidth}>
-            <PrimaryButton onPresshandler={resetInput}>Cancel</PrimaryButton>
-          </View>
-          <View style={styles.btnWidth}>
-            <PrimaryButton onPresshandler={submitNumberHandler} primary>
-              Start
-            </PrimaryButton>
-          </View>
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior='position'>
+        <View style={[styles.container, { paddingTop: paddingTopValue }]}>
+          <Heading headingText={"Pick a Number🔢!"}>
+            <Text style={styles.subtitle}>any Number</Text>
+          </Heading>
+          <Card>
+            <Label>Enter your Number</Label>
+            <TextInput
+              style={styles.numberInput}
+              maxLength={2}
+              onChangeText={textChangeHandler}
+              cursorColor={Colors.secondary500}
+              keyboardType='number-pad'
+              value={inputvalue}
+            />
+            <View style={styles.btnContainer}>
+              <View style={styles.btnWidth}>
+                <PrimaryButton onPresshandler={resetInput}>
+                  Cancel
+                </PrimaryButton>
+              </View>
+              <View style={styles.btnWidth}>
+                <PrimaryButton onPresshandler={submitNumberHandler} primary>
+                  Start
+                </PrimaryButton>
+              </View>
+            </View>
+          </Card>
         </View>
-      </Card>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
+// const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   container: {
-    paddingTop: 50,
+    // paddingTop: height < 400 ? 5 : 50,
     padding: 16,
     alignItems: "center",
   },
