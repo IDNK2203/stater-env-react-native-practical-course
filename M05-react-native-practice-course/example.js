@@ -1,31 +1,46 @@
-import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import {
+  Dimensions, //import the dimemsion API
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import Heading from "../components/Heading";
+import Colors from "../utils/colors";
+import PrimaryButton from "../components/Button";
 
-export default function App() {
+export default function GameOver({}) {
+  const restartGame = () => {};
+
   return (
-    <LinearGradient
-      colors={[Colors.secondary100, Colors.primary]}
-      style={styles.screenContainer}
-    >
-      <ImageBackground
-        source={require("./assets/images/background.png")}
-        style={styles.screenContainer}
-        resizeMode='cover'
-        imageStyle={styles.backgroundImage}
-      >
-        <SafeAreaView style={styles.screenContainer}>
-          <Game></Game>
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+    <View style={styles.container}>
+      <Heading headingText={"Challenge Completed 🚀"} />
+      <View style={styles.imgContainer}>
+        <Image
+          style={styles.img}
+          source={require("../assets/images/success.png")}
+        />
+      </View>
+      <View style={styles.btnWidth}>
+        <PrimaryButton primary onPresshandler={restartGame}>
+          Restart
+        </PrimaryButton>
+      </View>
+    </View>
   );
 }
 
+const deviceWidth = Dimensions.get("window").width; // Grab the Device width.
+
 const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-  },
-  backgroundImage: {
-    opacity: 0.2,
+  imgContainer: {
+    // used with the tenary operator to set styles based on the device width
+    height: deviceWidth > 320 ? 280 : 180, //👈 dynamically set component height
+    width: deviceWidth > 320 ? 280 : 180, // 👈 dynamically set component width
+    borderRadius: deviceWidth > 320 ? 140 : 90, //👈 dynamically set component border radius.
+    borderWidth: 8,
+    borderColor: Colors.secondary500,
+    overflow: "hidden",
+    margin: 16,
   },
 });
