@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-const CategoryItem = ({ title, color }) => {
+const CategoryItem = ({ title, color, onPressed }) => {
   return (
     <View style={styles.container}>
       <Pressable
@@ -9,6 +9,7 @@ const CategoryItem = ({ title, color }) => {
           styles.button,
           pressed ? styles.buttonPressed : null,
         ]}
+        onPress={onPressed}
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.categoryText}>{title}</Text>

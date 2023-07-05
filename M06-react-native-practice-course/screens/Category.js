@@ -2,11 +2,17 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { CATEGORIES } from "../data/dummy-data";
 import CategoryItem from "../components/CategoryItem";
 
-const RenderCategoryItem = ({ item }) => (
-  <CategoryItem title={item.title} color={item.color} />
-);
-
-const Category = () => {
+const Category = ({ navigation }) => {
+  const onPressedHandler = () => {
+    navigation.navigate("Meal");
+  };
+  const RenderCategoryItem = ({ item }) => (
+    <CategoryItem
+      title={item.title}
+      color={item.color}
+      onPressed={onPressedHandler}
+    />
+  );
   return (
     <View style={styles.container}>
       <FlatList
@@ -28,7 +34,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    paddingTop: 50,
+    paddingTop: 25,
     // backgroundColor: "#aff",
   },
 });
