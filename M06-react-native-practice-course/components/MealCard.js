@@ -1,12 +1,17 @@
 import React from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import Colors from "../utils/colors";
 
-const Card = ({ children, style = {} }) => {
-  return <View style={[styles.conatainer, style]}>{children}</View>;
+const MealCard = ({ mealItem }) => {
+  console.log(mealItem);
+  return (
+    <View style={styles.conatainer}>
+      <Text>{mealItem.title}</Text>
+    </View>
+  );
 };
 
-export default Card;
+export default MealCard;
 
 const styles = StyleSheet.create({
   conatainer: {
