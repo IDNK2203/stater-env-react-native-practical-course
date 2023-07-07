@@ -1,12 +1,45 @@
 import React from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Colors from "../utils/colors";
 
 const MealCard = ({ mealItem }) => {
-  console.log(mealItem);
+  // console.log(mealItem);
   return (
     <View style={styles.conatainer}>
-      <Text>{mealItem.title}</Text>
+      <Pressable
+        android_ripple={{ color: "#ccc" }}
+        style={({ pressed }) => (pressed ? [styles.buttonPressed] : null)}
+      >
+        <View style={styles.innerContainer}>
+          <View style={styles.imgContainer}>
+            <Image
+              style={styles.img}
+              resizeMode='cover'
+              source={{ uri: mealItem.imageUrl }}
+            />
+          </View>
+          <View style={styles.descContainer}>
+            <Text style={styles.mealTitle}>{mealItem.title}</Text>
+            <View>
+              <Text style={styles.mealItemDetails}>
+                {" "}
+                Duration: {mealItem.duration}mins
+              </Text>
+              <Text style={styles.mealItemDetails}>
+                {" "}
+                Complexity: {mealItem.complexity}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -15,18 +48,51 @@ export default MealCard;
 
 const styles = StyleSheet.create({
   conatainer: {
-    // backgroundColor: Colors.primary,
-    // backgroundColor: Platform.OS === "android" ? "orange" : "grey",
-    // backgroundColor: Platform.select({ ios: "orange", android: "grey" }),
-    backgroundColor: "grey",
-    marginVertical: 16,
-    padding: 16,
-    borderRadius: 8,
-    elevation: 10,
+    marginVertical: 8,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 6,
-    alignItems: "center",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    elevation: 4,
+    height: 125,
+    borderColor: Colors.accent600,
+    borderWidth: 4,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  innerContainer: {
+    overflow: "hidden",
+    // borderRadius: 8,
+    flexDirection: "row",
+    height: "100%",
+    width: "100%",
+  },
+  buttonPressed: {
+    opacity: 0.5,
+  },
+  imgContainer: {
+    flex: 1,
+    height: "100%",
+  },
+  img: {
+    width: "100%",
+    height: "100%",
+  },
+  descContainer: {
+    padding: 8,
+    paddingVertical: 20,
+    flex: 1,
+    height: "100%",
+    justifyContent: "space-between",
+  },
+  mealTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  mealItemDetails: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: Colors.bg,
   },
 });

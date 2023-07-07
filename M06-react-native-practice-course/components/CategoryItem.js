@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 6,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
-
-    overflow: "hidden",
   },
   buttonPressed: {
     opacity: 0.5,
