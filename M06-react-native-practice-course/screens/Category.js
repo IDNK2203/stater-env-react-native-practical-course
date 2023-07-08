@@ -12,10 +12,9 @@ const Category = ({ navigation }) => {
   const createMealCard = ({ item: mealItem }) => (
     <MealCard mealItem={mealItem} />
   );
+  const categoryTitle = CATEGORIES.find((item) => item.id === catId).title;
 
   useLayoutEffect(() => {
-    const categoryTitle = CATEGORIES.find((item) => item.id === catId).title;
-
     navigation.setOptions({
       title: categoryTitle,
     });

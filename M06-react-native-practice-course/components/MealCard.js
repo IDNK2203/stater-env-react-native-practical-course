@@ -8,14 +8,20 @@ import {
   View,
 } from "react-native";
 import Colors from "../utils/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const MealCard = ({ mealItem }) => {
-  // console.log(mealItem);
+  const navigator = useNavigation();
+  const onPressed = () => {
+    navigator.navigate("Meal", { mealId: mealItem.id });
+  };
+
   return (
     <View style={styles.conatainer}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => (pressed ? [styles.buttonPressed] : null)}
+        onPress={onPressed}
       >
         <View style={styles.innerContainer}>
           <View style={styles.imgContainer}>
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#fff",
     elevation: 4,
-    height: 125,
+    height: 150,
     borderColor: Colors.accent600,
     borderWidth: 4,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
