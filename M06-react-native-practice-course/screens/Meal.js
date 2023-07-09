@@ -17,26 +17,36 @@ const Meal = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View class={styles.container}>
+    <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: meal.imageUrl }} />
+        <Image style={styles.img} source={{ uri: meal.imageUrl }} />
       </View>
-      <Text>{meal.title}</Text>
+      <Text style={styles.title}>{meal.title}</Text>
+
       <View style={styles.detailsContainer}>
-        <Text style={styles.mealDetail}>Duration: {meal.duration}</Text>
-        <Text style={styles.mealDetail}>
-          Affordability: {meal.affordability}
-        </Text>
-        <Text style={styles.mealDetail}>Complexity: {meal.complexity}</Text>
+        <Text style={styles.mealDetail}>{meal.duration}</Text>
+        <Text style={styles.mealDetail}>{meal.affordability}</Text>
+        <Text style={styles.mealDetail}>{meal.complexity}</Text>
       </View>
       <View style={styles.listItemContainer}>
+        <View style={styles.whiteBorder}>
+          <Text style={styles.subTitle}> Ingredients</Text>
+        </View>
         {meal.ingredients.map((item) => (
-          <Text style={styles.listItem}>{item}</Text>
+          <Text key={item} style={styles.listItem}>
+            {item}
+          </Text>
         ))}
       </View>
       <View style={styles.listItemContainer}>
+        <View style={styles.whiteBorder}>
+          <Text style={styles.subTitle}>Preparation Steps</Text>
+        </View>
+
         {meal.steps.map((item) => (
-          <Text style={styles.listItem}>{item}</Text>
+          <Text key={item} style={styles.listItem}>
+            {item}
+          </Text>
         ))}
       </View>
     </View>
@@ -48,16 +58,56 @@ export default Meal;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    marginBottom: 15,
   },
-  imageContainer: {},
+  imageContainer: {
+    width: "100%",
+    height: 300,
+    marginBottom: 10,
+  },
+  img: {
+    width: "100%",
+    height: "100%",
+  },
+  title: {
+    fontSize: 24,
+    color: "white",
+    fontWeight: 700,
+    textAlign: "center",
+    margin: 12.5,
+  },
 
-  title: {},
+  detailsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginTop: 0,
+    margin: 12,
+  },
 
-  detailsContainer: {},
+  mealDetail: {
+    textTransform: "uppercase",
+    color: "white",
+    fontWeight: 300,
+    fontSize: 16,
+  },
+  subTitle: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: 700,
+    textAlign: "center",
+    margin: 5,
+  },
+  whiteBorder: {
+    borderColor: "white",
+    borderBottomWidth: 3,
+  },
 
-  mealDetail: {},
-
-  listItemContainer: {},
+  listItemContainer: {
+    width: "100%",
+    // paddingHorizontal: 12.5,
+  },
 
   listItem: {},
 });
