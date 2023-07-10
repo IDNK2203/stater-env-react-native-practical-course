@@ -1,7 +1,8 @@
 import { useRoute } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/dummy-data";
+import Colors from "../utils/colors";
 
 const Meal = ({ navigation }) => {
   const mealId = useRoute().params.mealId;
@@ -17,45 +18,52 @@ const Meal = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image style={styles.img} source={{ uri: meal.imageUrl }} />
-      </View>
-      <Text style={styles.title}>{meal.title}</Text>
-
-      <View style={styles.detailsContainer}>
-        <Text style={styles.mealDetail}>{meal.duration}</Text>
-        <Text style={styles.mealDetail}>{meal.affordability}</Text>
-        <Text style={styles.mealDetail}>{meal.complexity}</Text>
-      </View>
-      <View style={styles.listItemContainer}>
-        <View style={styles.whiteBorder}>
-          <Text style={styles.subTitle}> Ingredients</Text>
+    <ScrollView style={styles.flex}>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image style={styles.img} source={{ uri: meal.imageUrl }} />
         </View>
-        {meal.ingredients.map((item) => (
-          <Text key={item} style={styles.listItem}>
-            {item}
-          </Text>
-        ))}
-      </View>
-      <View style={styles.listItemContainer}>
-        <View style={styles.whiteBorder}>
-          <Text style={styles.subTitle}>Preparation Steps</Text>
-        </View>
+        <Text style={styles.title}>{meal.title}</Text>
 
-        {meal.steps.map((item) => (
-          <Text key={item} style={styles.listItem}>
-            {item}
+        <View style={styles.detailsContainer}>
+          <Text style={styles.mealDetail}>{meal.duration}m</Text>
+          <Text style={styles.mealDetail}>
+            {meal.affordability.toUpperCase()}
           </Text>
-        ))}
+          <Text style={styles.mealDetail}>{meal.complexity.toUpperCase()}</Text>
+        </View>
+        <View style={styles.listItemContainer}>
+          <View style={styles.whiteBorder}>
+            <Text style={styles.subTitle}> Ingredients</Text>
+          </View>
+          {meal.ingredients.map((item) => (
+            <Text key={item} style={styles.listItem}>
+              {item}
+            </Text>
+          ))}
+        </View>
+        <View style={styles.listItemContainer}>
+          <View style={styles.whiteBorder}>
+            <Text style={styles.subTitle}>Preparation Steps</Text>
+          </View>
+
+          {meal.steps.map((item) => (
+            <Text key={item} style={styles.listItem}>
+              {item}
+            </Text>
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 export default Meal;
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -81,33 +89,49 @@ const styles = StyleSheet.create({
   detailsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
+    width: 200,
     marginTop: 0,
     margin: 12,
   },
 
   mealDetail: {
-    textTransform: "uppercase",
+    // textTransform: "uppercase",
     color: "white",
     fontWeight: 300,
     fontSize: 16,
   },
   subTitle: {
     fontSize: 20,
-    color: "white",
+    color: Colors.accent400,
     fontWeight: 700,
     textAlign: "center",
     margin: 5,
   },
   whiteBorder: {
-    borderColor: "white",
+    borderColor: Colors.accent400,
     borderBottomWidth: 3,
+    width: "100%",
   },
 
   listItemContainer: {
     width: "100%",
-    // paddingHorizontal: 12.5,
+    paddingHorizontal: 16,
+    marginTop: 10,
+    alignItems: "center",
   },
-
-  listItem: {},
+  listItem: {
+    padding: 12,
+    fontWeight: 600,
+    marginVertical: 8,
+    borderRadius: 6,
+    backgroundColor: Colors.accent400,
+    textAlign: "left",
+    width: "100%",
+    color: Colors.bg,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 4,
+  },
 });
