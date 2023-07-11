@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Category from "./screens/Category";
 import Meal from "./screens/Meal";
+import Colors from "./utils/colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,8 +14,8 @@ export default function App() {
       <StatusBar style='light' />
       <Stack.Navigator
         screenOptions={{
-          headerStyle: { backgroundColor: "#5a2e47" },
-          contentStyle: { backgroundColor: "#412234" },
+          headerStyle: { backgroundColor: Colors.bg },
+          contentStyle: { backgroundColor: Colors.bg },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
         }}

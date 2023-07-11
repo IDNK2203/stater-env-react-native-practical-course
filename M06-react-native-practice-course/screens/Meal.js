@@ -1,8 +1,9 @@
 import { useRoute } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import Colors from "../utils/colors";
+import PrimaryButton from "../components/Button";
 
 const Meal = ({ navigation }) => {
   const mealId = useRoute().params.mealId;
@@ -11,9 +12,18 @@ const Meal = ({ navigation }) => {
   const truncate = (str, max, len) => {
     return str.length > max ? str.substring(0, len) + "..." : str;
   };
+
+  const headerButtonHandler = () => {
+    Alert.alert("Hurray", "This meal has been added to your Favourite 🍴", [
+      { text: "Cancel", style: "cancel" },
+    ]);
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       title: truncate(meal.title, 20, 19),
+      headerRight: () => (
+        <PrimaryButton primary onPresshandler={headerButtonHandler} />
+      ),
     });
   }, [navigation]);
 
