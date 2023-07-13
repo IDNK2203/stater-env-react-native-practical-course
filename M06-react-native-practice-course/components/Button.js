@@ -31,7 +31,7 @@ const PrimaryButton = ({ primary, onPresshandler, disabled }) => {
       >
         <Ionicons
           name={fav ? "star" : "star-outline"}
-          size={24}
+          size={20}
           color={Colors.secondary500}
         />
       </Pressable>

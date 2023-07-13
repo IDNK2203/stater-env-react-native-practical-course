@@ -16,13 +16,18 @@ export default function App() {
     <NavigationContainer>
       <StatusBar style='light' />
       <Drawer.Navigator
+        initialRouteName='Meal Categories'
         screenOptions={{
-          headerStyle: { backgroundColor: Colors.bg },
-          contentStyle: { backgroundColor: Colors.bg },
+          headerStyle: { backgroundColor: Colors.bg, height: 100 },
+          sceneContainerStyle: { backgroundColor: Colors.bg },
+          // contentStyle: { backgroundColor: Colors.bg },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
+          drawerStyle: {
+            backgroundColor: "#ffc857",
+            width: 240,
+          },
         }}
-        initialRouteName='Meal Categories'
       >
         <Drawer.Screen
           name='Meal Categories'
