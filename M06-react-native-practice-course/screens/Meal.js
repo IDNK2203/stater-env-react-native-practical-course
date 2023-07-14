@@ -14,6 +14,7 @@ const Meal = ({ navigation }) => {
   };
 
   const headerButtonHandler = () => {
+    navigation.toggleDrawer();
     Alert.alert("Hurray", "This meal has been added to your Favourite 🍴", [
       { text: "Cancel", style: "cancel" },
     ]);
@@ -25,7 +26,7 @@ const Meal = ({ navigation }) => {
         <PrimaryButton primary onPresshandler={headerButtonHandler} />
       ),
     });
-  }, [navigation]);
+  }, [navigation, meal.title]);
 
   return (
     <ScrollView style={styles.flex}>

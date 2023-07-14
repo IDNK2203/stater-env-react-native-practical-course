@@ -6,6 +6,7 @@ import Category from "./screens/Category";
 import Meal from "./screens/Meal";
 import Colors from "./utils/colors";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Ionicons } from "@expo/vector-icons";
 
 // const Stack = createNativeStackNavigator();
 
@@ -23,8 +24,10 @@ export default function App() {
           // contentStyle: { backgroundColor: Colors.bg },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
+          drawerActiveBackgroundColor: Colors.bg,
+          drawerActiveTintColor: "#bdd9bf",
           drawerStyle: {
-            backgroundColor: "#ffc857",
+            backgroundColor: "#bdd9bf",
             width: 240,
           },
         }}
@@ -32,12 +35,33 @@ export default function App() {
         <Drawer.Screen
           name='Meal Categories'
           options={{
-            title: "Meal Categories",
+            drawerLabel: "Meal Categories",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name='md-home' size={18} color={color} />
+            ),
           }}
           component={CategoryListing}
         />
-        <Drawer.Screen name='Meal Category' component={Category} />
-        <Drawer.Screen name='Meal' component={Meal} />
+        <Drawer.Screen
+          name='Meal Category'
+          options={{
+            drawerLabel: "Meal Category",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name='grid' size={18} color={color} />
+            ),
+          }}
+          component={Category}
+        />
+        <Drawer.Screen
+          name='Meal'
+          options={{
+            drawerLabel: "Meal",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name='md-fast-food' size={18} color={color} />
+            ),
+          }}
+          component={Meal}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

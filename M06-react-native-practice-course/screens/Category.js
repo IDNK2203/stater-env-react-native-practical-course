@@ -6,6 +6,7 @@ import { useLayoutEffect } from "react";
 
 const Category = ({ navigation }) => {
   const catId = useRoute().params.categoryId;
+  console.log(useRoute().params);
 
   const catMeals = MEALS.filter((item) => item.categoryIds.includes(catId));
 
@@ -18,7 +19,7 @@ const Category = ({ navigation }) => {
     navigation.setOptions({
       title: categoryTitle,
     });
-  }, [navigation, CATEGORIES]);
+  }, [navigation, categoryTitle]);
 
   return (
     <FlatList
