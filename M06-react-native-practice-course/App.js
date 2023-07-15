@@ -7,62 +7,68 @@ import Meal from "./screens/Meal";
 import Colors from "./utils/colors";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style='light' />
-      <Drawer.Navigator
+      <Tab.Navigator
         initialRouteName='Meal Categories'
+        sceneContainerStyle={{ backgroundColor: Colors.bg }}
         screenOptions={{
           headerStyle: { backgroundColor: Colors.bg, height: 100 },
-          sceneContainerStyle: { backgroundColor: Colors.bg },
+
           // contentStyle: { backgroundColor: Colors.bg },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
-          drawerActiveBackgroundColor: Colors.bg,
-          drawerActiveTintColor: "#bdd9bf",
-          drawerStyle: {
-            backgroundColor: "#bdd9bf",
-            width: 240,
+          // tabBarActiveBackgroundColor: Colors.bg,
+          tabBarActiveTintColor: "#bdd9bf",
+          tabBarStyle: {
+            backgroundColor: "#000401",
+            // width: 240,
           },
         }}
       >
-        <Drawer.Screen
+        <Tab.Screen
           name='Meal Categories'
           options={{
-            drawerLabel: "Meal Categories",
-            drawerIcon: ({ color, size }) => (
+            tabBarLabel: "Meal Categories",
+            tabBarIcon: ({ color, size }) => (
               <Ionicons name='md-home' size={18} color={color} />
             ),
           }}
           component={CategoryListing}
         />
-        <Drawer.Screen
+        <Tab.Screen
           name='Meal Category'
+          initialParams={{ categoryId: "c1" }}
           options={{
-            drawerLabel: "Meal Category",
-            drawerIcon: ({ color, size }) => (
+            tabBarLabel: "Meal Category",
+
+            tabBarIcon: ({ color, size }) => (
               <Ionicons name='grid' size={18} color={color} />
             ),
           }}
           component={Category}
         />
-        <Drawer.Screen
+        <Tab.Screen
           name='Meal'
+          initialParams={{ mealId: "m1" }}
           options={{
-            drawerLabel: "Meal",
-            drawerIcon: ({ color, size }) => (
+            tabBarLabel: "Meal",
+            tabBarIcon: ({ color, size }) => (
               <Ionicons name='md-fast-food' size={18} color={color} />
             ),
           }}
           component={Meal}
         />
-      </Drawer.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
