@@ -8,23 +8,49 @@ import Colors from "./utils/colors";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Favourites from "./screens/Favourites";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
+
+const DrawerNav = function () {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.bg,
+          height: 100,
+        },
+        sceneContainerStyle: {
+          backgroundColor: Colors.bg,
+          overflow: "hidden",
+          elevation: 0,
+        },
+        headerTintColor: "#fff",
+        headerTitleAlign: "center",
+      }}
+      initialRouteName='Meal Categories'
+    >
+      <Drawer.Screen name='Meal Categories' component={CategoryListing} />
+      <Drawer.Screen name='Favourite' component={Favourites} />
+    </Drawer.Navigator>
+  );
+};
+
+// const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style='light' />
-      <Tab.Navigator
-        initialRouteName='Meal Categories'
-        sceneContainerStyle={{ backgroundColor: Colors.bg }}
+      <Stack.Navigator
+        initialRouteName='DrawerNav'
         screenOptions={{
           headerStyle: { backgroundColor: Colors.bg, height: 100 },
 
-          // contentStyle: { backgroundColor: Colors.bg },
+          contentStyle: { backgroundColor: Colors.bg },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
           // tabBarActiveBackgroundColor: Colors.bg,
@@ -35,40 +61,30 @@ export default function App() {
           },
         }}
       >
-        <Tab.Screen
-          name='Meal Categories'
+        <Stack.Screen
+          name='DrawerNav'
           options={{
-            tabBarLabel: "Meal Categories",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name='md-home' size={18} color={color} />
-            ),
+            headerShown: false,
           }}
-          component={CategoryListing}
+          component={DrawerNav}
         />
-        <Tab.Screen
+        <Stack.Screen
           name='Meal Category'
           initialParams={{ categoryId: "c1" }}
           options={{
-            tabBarLabel: "Meal Category",
-
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name='grid' size={18} color={color} />
-            ),
+            title: "Meal Category",
           }}
           component={Category}
         />
-        <Tab.Screen
+        <Stack.Screen
           name='Meal'
           initialParams={{ mealId: "m1" }}
           options={{
-            tabBarLabel: "Meal",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name='md-fast-food' size={18} color={color} />
-            ),
+            title: "Meal",
           }}
           component={Meal}
         />
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
