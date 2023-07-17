@@ -26,15 +26,37 @@ const DrawerNav = function () {
         sceneContainerStyle: {
           backgroundColor: Colors.bg,
           overflow: "hidden",
-          elevation: 0,
         },
         headerTintColor: "#fff",
         headerTitleAlign: "center",
+        drawerActiveBackgroundColor: Colors.bg,
+        drawerActiveTintColor: "#bdd9bf",
+        drawerInactiveTintColor: "#fff",
+        drawerStyle: {
+          backgroundColor: "#120701",
+          width: 240,
+        },
       }}
       initialRouteName='Meal Categories'
     >
-      <Drawer.Screen name='Meal Categories' component={CategoryListing} />
-      <Drawer.Screen name='Favourite' component={Favourites} />
+      <Drawer.Screen
+        name='Meal Categories'
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name='list' color={color} size={size} />
+          ),
+        }}
+        component={CategoryListing}
+      />
+      <Drawer.Screen
+        name='Favourite'
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name='star-sharp' color={color} size={size} />
+          ),
+        }}
+        component={Favourites}
+      />
     </Drawer.Navigator>
   );
 };
@@ -53,12 +75,6 @@ export default function App() {
           contentStyle: { backgroundColor: Colors.bg },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
-          // tabBarActiveBackgroundColor: Colors.bg,
-          tabBarActiveTintColor: "#bdd9bf",
-          tabBarStyle: {
-            backgroundColor: "#000401",
-            // width: 240,
-          },
         }}
       >
         <Stack.Screen
