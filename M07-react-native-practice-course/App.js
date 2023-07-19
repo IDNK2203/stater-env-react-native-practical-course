@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import CategoryListing from "./screens/CategoryListing";
 import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Category from "./screens/Category";
 import Meal from "./screens/Meal";
 import Colors from "./utils/colors";
@@ -10,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Favourites from "./screens/Favourites";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { FavContextProvider } from "./store/favContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,42 +65,44 @@ const DrawerNav = function () {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style='light' />
-      <Stack.Navigator
-        initialRouteName='DrawerNav'
-        screenOptions={{
-          headerStyle: { backgroundColor: Colors.bg, height: 100 },
+    <FavContextProvider>
+      <NavigationContainer>
+        <StatusBar style='light' />
+        <Stack.Navigator
+          initialRouteName='DrawerNav'
+          screenOptions={{
+            headerStyle: { backgroundColor: Colors.bg, height: 100 },
 
-          contentStyle: { backgroundColor: Colors.bg },
-          headerTintColor: "#fff",
-          headerTitleAlign: "center",
-        }}
-      >
-        <Stack.Screen
-          name='DrawerNav'
-          options={{
-            headerShown: false,
+            contentStyle: { backgroundColor: Colors.bg },
+            headerTintColor: "#fff",
+            headerTitleAlign: "center",
           }}
-          component={DrawerNav}
-        />
-        <Stack.Screen
-          name='Meal Category'
-          initialParams={{ categoryId: "c1" }}
-          options={{
-            title: "Meal Category",
-          }}
-          component={Category}
-        />
-        <Stack.Screen
-          name='Meal'
-          initialParams={{ mealId: "m1" }}
-          options={{
-            title: "Meal",
-          }}
-          component={Meal}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+        >
+          <Stack.Screen
+            name='DrawerNav'
+            options={{
+              headerShown: false,
+            }}
+            component={DrawerNav}
+          />
+          <Stack.Screen
+            name='Meal Category'
+            initialParams={{ categoryId: "c1" }}
+            options={{
+              title: "Meal Category",
+            }}
+            component={Category}
+          />
+          <Stack.Screen
+            name='Meal'
+            initialParams={{ mealId: "m1" }}
+            options={{
+              title: "Meal",
+            }}
+            component={Meal}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </FavContextProvider>
   );
 }

@@ -4,20 +4,24 @@ import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import Colors from "../utils/colors";
 import PrimaryButton from "../components/Button";
+import { useFavContext } from "../store/favContext";
 
 const Meal = ({ navigation }) => {
   const mealId = useRoute().params.mealId;
   const meal = MEALS.find((item) => item.id === mealId);
+  const { state, dispatch } = useFavContext();
 
   const truncate = (str, max, len) => {
     return str.length > max ? str.substring(0, len) + "..." : str;
   };
 
   const headerButtonHandler = () => {
-    navigation.toggleDrawer();
-    Alert.alert("Hurray", "This meal has been added to your Favourite 🍴", [
-      { text: "Cancel", style: "cancel" },
-    ]);
+    dispatch({ type: "TOGGLE_MODE", payload: meal });
+    console.log(state);
+    // navigation.toggleDrawer();
+    // Alert.alert("Hurray", "This meal has been added to your Favourite 🍴", [
+    //   { text: "Cancel", style: "cancel" },
+    // ]);
   };
   useLayoutEffect(() => {
     navigation.setOptions({
