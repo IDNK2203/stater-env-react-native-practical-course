@@ -2,19 +2,12 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import Colors from "../utils/colors";
 import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useFavContext } from "../store/favContext";
 
-const PrimaryButton = ({ primary, onPresshandler, disabled }) => {
-  const [fav, setfav] = useState(false);
+const PrimaryButton = ({ primary, onPresshandler, disabled, mealId }) => {
+  const { state: favMeals } = useFavContext();
+  const favExist = favMeals.favourites.find((item) => item.id === mealId);
 
-  const onp = () => {
-    setfav((e) => !e);
-  };
-
-  useEffect(() => {
-    if (fav) {
-      onPresshandler();
-    }
-  }, [fav]);
   return (
     <View
       style={[styles.outerBtnContainer, primary ? null : styles.secondaryBtn]}
@@ -27,10 +20,10 @@ const PrimaryButton = ({ primary, onPresshandler, disabled }) => {
             : [styles.innerBtnContainer]
         }
         android_ripple={{ color: "#e2e2e2" }}
-        onPress={onp}
+        onPress={onPresshandler}
       >
         <Ionicons
-          name={fav ? "star" : "star-outline"}
+          name={favExist ? "star" : "star-outline"}
           size={20}
           color={Colors.secondary500}
         />

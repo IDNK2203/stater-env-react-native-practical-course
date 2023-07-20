@@ -49,7 +49,7 @@ const DrawerNav = function () {
         component={CategoryListing}
       />
       <Drawer.Screen
-        name='Favourite'
+        name='Favourites'
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name='star-sharp' color={color} size={size} />

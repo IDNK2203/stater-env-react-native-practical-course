@@ -18,7 +18,6 @@ const Meal = ({ navigation }) => {
   const headerButtonHandler = () => {
     dispatch({ type: "TOGGLE_MODE", payload: meal });
     console.log(state);
-    // navigation.toggleDrawer();
     // Alert.alert("Hurray", "This meal has been added to your Favourite 🍴", [
     //   { text: "Cancel", style: "cancel" },
     // ]);
@@ -27,7 +26,11 @@ const Meal = ({ navigation }) => {
     navigation.setOptions({
       title: truncate(meal.title, 20, 19),
       headerRight: () => (
-        <PrimaryButton primary onPresshandler={headerButtonHandler} />
+        <PrimaryButton
+          primary
+          mealId={meal.id}
+          onPresshandler={headerButtonHandler}
+        />
       ),
     });
   }, [navigation, meal.title]);
