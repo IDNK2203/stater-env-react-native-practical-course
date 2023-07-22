@@ -17,10 +17,6 @@ const Meal = ({ navigation }) => {
 
   const headerButtonHandler = () => {
     dispatch({ type: "TOGGLE_MODE", payload: meal });
-    console.log(state);
-    // Alert.alert("Hurray", "This meal has been added to your Favourite 🍴", [
-    //   { text: "Cancel", style: "cancel" },
-    // ]);
   };
   useLayoutEffect(() => {
     navigation.setOptions({

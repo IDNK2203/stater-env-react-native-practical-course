@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 const RecentExpenses = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!2</Text>
+      <Text style={styles.text}>This is the Recent Expenses Screen</Text>
     </View>
   );
 };
@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 25,
     marginTop: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   rootContainer: {
@@ -23,9 +25,6 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 25,
     marginTop: 15,
-
-    justifyContent: "center",
-    alignItems: "center",
   },
   text: {
     fontSize: 18,
