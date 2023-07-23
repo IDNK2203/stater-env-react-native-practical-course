@@ -1,10 +1,13 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import ExpenseOutpt from "../components/ExpenseOutput/ExpenseOutpt";
 
 const RecentExpenses = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>This is the Recent Expenses Screen</Text>
-    </View>
+    <ExpenseOutpt expensePeriod={"Last 7 Days"} />
+
+    // <View style={styles.container}>
+    //   <Text style={styles.text}>This is the Recent Expenses Screen</Text>
+    // </View>
   );
 };
 

@@ -1,12 +1,14 @@
-import { Text } from "react-native";
 import { FlatList, StyleSheet, View } from "react-native";
-import ExpenseOutpt from "../components/ExpenseOutput/ExpenseOutpt";
 
-const AllExpenses = ({ navigation }) => {
-  return <ExpenseOutpt expensePeriod={"All"} />;
+const ExpenseList = ({ expenses }) => {
+  return (
+    <View>
+      <FlatList />
+    </View>
+  );
 };
 
-export default AllExpenses;
+export default ExpenseList;
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
