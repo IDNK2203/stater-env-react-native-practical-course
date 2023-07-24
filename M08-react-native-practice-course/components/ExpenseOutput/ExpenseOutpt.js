@@ -37,7 +37,7 @@ const DUMMY_EXPENSES = [
 
 const ExpenseOutpt = ({ expenses, expensePeriod }) => {
   return (
-    <View>
+    <View style={styles.container}>
       <ExpenseSummary expenses={DUMMY_EXPENSES} expensePeriod={expensePeriod} />
       <ExpenseList expenses={DUMMY_EXPENSES} />
     </View>
@@ -46,15 +46,13 @@ const ExpenseOutpt = ({ expenses, expensePeriod }) => {
 
 export default ExpenseOutpt;
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-  },
   container: {
     flex: 1,
-    // backgroundColor: "#aff",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 16,
+    marginBottom: 25,
+    marginTop: 15,
+    // // backgroundColor: "#aff",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
