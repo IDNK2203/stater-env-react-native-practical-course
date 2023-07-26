@@ -1,10 +1,18 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { colorPallete } from "../../utils/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const ExpenseItem = ({ amount, description, date }) => {
-  //   const expenseSum = .reduce((sum, item) => sum + item.amount, 0);
+  const navigate = useNavigation();
+  const expenseOnPresshandler = () => {
+    navigate.navigate("ManageExpense");
+  };
+
   return (
-    <Pressable>
+    <Pressable
+      onPress={expenseOnPresshandler}
+      style={({ pressed }) => (pressed ? styles.pressed : null)}
+    >
       <View style={styles.container}>
         <View style={styles.dets}>
           <Text style={[styles.text, styles.textadded]}> {description}</Text>
@@ -60,5 +68,8 @@ const styles = StyleSheet.create({
   },
   textadded: {
     color: "white",
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });

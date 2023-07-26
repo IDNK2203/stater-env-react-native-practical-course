@@ -7,6 +7,7 @@ import RecentExpenses from "./screens/RecentExpenses";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colorPallete } from "./utils/colors";
 import { Ionicons } from "@expo/vector-icons";
+import IconButton from "./components/IconButton";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -16,9 +17,8 @@ const ExpenseOverView = () => {
     <BottomTab.Navigator
       sceneContainerStyle={{
         backgroundColor: colorPallete.Richblack,
-        borderWidth: 0,
       }}
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: colorPallete.Richblack,
           height: 100,
@@ -39,7 +39,17 @@ const ExpenseOverView = () => {
           borderWidth: 0,
           marginVertical: 10,
         },
-      }}
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            iconTitle={"add"}
+            size={24}
+            color={tintColor}
+            onPresshandler={() => {
+              navigation.navigate("ManageExpense");
+            }}
+          />
+        ),
+      })}
     >
       <BottomTab.Screen
         options={{
@@ -57,7 +67,7 @@ const ExpenseOverView = () => {
           title: " All Expenses",
           tabBarLabel: "All",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name='list-circle-outline' color={color} size={size} />
+            <Ionicons name='list-outline' color={color} size={size} />
           ),
         }}
         name={"AllExpenses"}
@@ -71,7 +81,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style='light' />
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colorPallete.Darkpurple,
+            height: 100,
+          },
+
+          contentStyle: { backgroundColor: colorPallete.Richblack },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+        }}
+      >
         <Stack.Screen
           options={{
             headerShown: false,
@@ -79,7 +100,15 @@ export default function App() {
           name={"ExpenseOverView"}
           component={ExpenseOverView}
         />
-        <Stack.Screen name={"ManageExpense"} component={ManageExpense} />
+
+        <Stack.Screen
+          options={{
+            title: "Manage Expense",
+            presentation: "modal",
+          }}
+          name={"ManageExpense"}
+          component={ManageExpense}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
