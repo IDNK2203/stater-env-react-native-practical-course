@@ -2,10 +2,10 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { colorPallete } from "../../utils/colors";
 import { useNavigation } from "@react-navigation/native";
 
-const ExpenseItem = ({ amount, description, date }) => {
+const ExpenseItem = ({ amount, description, date, id }) => {
   const navigate = useNavigation();
   const expenseOnPresshandler = () => {
-    navigate.navigate("ManageExpense");
+    navigate.navigate("ManageExpense", { expenseId: id });
   };
 
   return (
