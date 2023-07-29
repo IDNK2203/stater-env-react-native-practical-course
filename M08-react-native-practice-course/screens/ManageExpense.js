@@ -11,7 +11,7 @@ const ManageExpense = ({ navigation, route }) => {
   const onDeleteHandler = () => {
     navigation.goBack();
   };
-  const onDAddHandler = () => {
+  const onAddHandler = () => {
     navigation.goBack();
   };
   const onCancelHandler = () => {
@@ -32,7 +32,7 @@ const ManageExpense = ({ navigation, route }) => {
             <Button mode={"flat"} onPresshandler={onCancelHandler}>
               Cancel
             </Button>
-            <Button onPresshandler={onDAddHandler}>Add</Button>
+            <Button onPresshandler={onAddHandler}>Add</Button>
           </View>
           <View style={styles.deleteBtnContainer}>
             <IconButton

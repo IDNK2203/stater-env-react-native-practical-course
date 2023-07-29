@@ -1,34 +1,33 @@
 import { createContext, useContext, useReducer } from "react";
-import reducer from "./favReducer";
+import reducer from "./expenseReducer";
+import { DUMMY_EXPENSES } from "../data/dummy-data";
 
 // Initial State
 const initialState = {
-  favourites: [],
+  expenses: DUMMY_EXPENSES,
 };
 
 // Create Our context
-const favContext = createContext({
+const expenseContext = createContext({
   state: initialState,
   dispatch: () => {},
 });
 
 // Provider to wrap around our root react component
-export const FavContextProvider = ({ children }) => {
+export const ExpenseContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const contextValue = useMemo(() => {
+    return { state, dispatch };
+  }, [state, dispatch]);
   return (
-    <favContext.Provider
-      value={{
-        state,
-        dispatch,
-      }}
-    >
+    <expenseContext.Provider value={contextValue}>
       {children}
-    </favContext.Provider>
+    </expenseContext.Provider>
   );
 };
 
 // Custom context hook
-export const useFavContext = () => {
-  const { state, dispatch } = useContext(favContext);
+export const useExpenseContext = () => {
+  const { state, dispatch } = useContext(expenseContext);
   return { state, dispatch };
 };
