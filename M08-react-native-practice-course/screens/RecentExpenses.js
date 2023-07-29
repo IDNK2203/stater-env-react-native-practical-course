@@ -1,37 +1,21 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import ExpenseOutpt from "../components/ExpenseOutput/ExpenseOutpt";
+import { useExpenseContext } from "../store/expenseContext";
+import { getDateMinusDays } from "../utils/date";
 
-const RecentExpenses = ({ navigation }) => {
+const RecentExpenses = () => {
+  const { state: expenses } = useExpenseContext();
+  const recentExpenses = expenses.expenses.filter((expense) => {
+    const today = new Date();
+    const date7DaysAgo = getDateMinusDays(today, 7);
+
+    return expense.date >= date7DaysAgo && expense.date <= today;
+  });
+
+  console.log(expenses, "/n", recentExpenses);
   return (
-    <ExpenseOutpt expensePeriod={"Last 7 Days"} />
-
-    // <View style={styles.container}>
-    //   <Text style={styles.text}>This is the Recent Expenses Screen</Text>
-    // </View>
+    <ExpenseOutpt expenses={recentExpenses} expensePeriod={"Last 7 Days"} />
   );
 };
 
 export default RecentExpenses;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    marginBottom: 25,
-    marginTop: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  rootContainer: {
-    flex: 1,
-    padding: 16,
-    marginBottom: 25,
-    marginTop: 15,
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-  },
-});

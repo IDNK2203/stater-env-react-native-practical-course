@@ -1,9 +1,11 @@
-import { Text } from "react-native";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ExpenseOutpt from "../components/ExpenseOutput/ExpenseOutpt";
+import { useExpenseContext } from "../store/expenseContext";
 
-const AllExpenses = ({ navigation }) => {
-  return <ExpenseOutpt expensePeriod={"All"} />;
+const AllExpenses = () => {
+  const { state: expenses } = useExpenseContext();
+
+  return <ExpenseOutpt expenses={expenses.expenses} expensePeriod={"All"} />;
 };
 
 export default AllExpenses;

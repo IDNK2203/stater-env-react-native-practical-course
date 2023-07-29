@@ -1,15 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import ExpenseList from "./ExpenseList";
 import ExpenseSummary from "./ExpenseSummary";
-import { useExpenseContext } from "../../store/expenseContext";
 
 const ExpenseOutpt = ({ expenses, expensePeriod }) => {
-  const { state } = useExpenseContext();
-
   return (
     <View style={styles.container}>
-      <ExpenseSummary expenses={state.expenses} expensePeriod={expensePeriod} />
-      <ExpenseList expenses={state.expenses} />
+      <ExpenseSummary expenses={expenses} expensePeriod={expensePeriod} />
+      <ExpenseList expenses={expenses} />
     </View>
   );
 };
