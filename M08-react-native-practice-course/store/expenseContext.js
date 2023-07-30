@@ -16,11 +16,11 @@ const expenseContext = createContext({
 // Provider to wrap around our root react component
 export const ExpenseContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const contextValue = useMemo(() => {
-    return { state, dispatch };
-  }, [state, dispatch]);
+  // const contextValue = useMemo(() => {
+  //   return { state, dispatch };
+  // }, [state, dispatch]);
   return (
-    <expenseContext.Provider value={contextValue}>
+    <expenseContext.Provider value={{ dispatch, state }}>
       {children}
     </expenseContext.Provider>
   );

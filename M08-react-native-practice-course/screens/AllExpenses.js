@@ -3,9 +3,9 @@ import ExpenseOutpt from "../components/ExpenseOutput/ExpenseOutpt";
 import { useExpenseContext } from "../store/expenseContext";
 
 const AllExpenses = () => {
-  const { state: expenses } = useExpenseContext();
+  const { state } = useExpenseContext();
 
-  return <ExpenseOutpt expenses={expenses.expenses} expensePeriod={"All"} />;
+  return <ExpenseOutpt expenses={state.expenses} expensePeriod={"All"} />;
 };
 
 export default AllExpenses;

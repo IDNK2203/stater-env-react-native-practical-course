@@ -3,7 +3,7 @@ import Colors, { colorPallete } from "../utils/colors";
 
 const Button = ({ children, mode, style, onPresshandler }) => {
   return (
-    <View style={[styles.btnOuter]}>
+    <View style={[styles.btnOuter, style]}>
       <Pressable
         style={({ pressed }) =>
           pressed ? [styles.btnPressed, styles.pressed] : [styles.btnPressed]
@@ -25,7 +25,7 @@ export default Button;
 
 const styles = StyleSheet.create({
   btnOuter: {
-    margin: 8,
+    marginVertical: 8,
     backgroundColor: "transparent",
     borderRadius: 30,
     overflow: "hidden",

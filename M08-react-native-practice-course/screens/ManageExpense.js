@@ -3,13 +3,17 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import IconButton from "../components/IconButton";
 import { colorPallete } from "../utils/colors";
 import Button from "../components/Button";
+import { useExpenseContext } from "../store/expenseContext";
 
 const ManageExpense = ({ navigation, route }) => {
+  const { dispatch, state } = useExpenseContext();
   const expenseId = route.params?.expenseId;
   const isEditing = !!expenseId;
 
   const onDeleteHandler = () => {
+    dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
     navigation.goBack();
+    console.log(state);
   };
   const onAddHandler = () => {
     navigation.goBack();
@@ -21,29 +25,32 @@ const ManageExpense = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: isEditing ? "Edit Expense" : " Add Expense",
+      headerRight: ({}) =>
+        isEditing && (
+          <IconButton
+            onPresshandler={onDeleteHandler}
+            iconTitle='trash'
+            color={colorPallete.Claret}
+            size={24}
+          />
+        ),
     });
   }, [isEditing, navigation]);
 
   return (
     <View style={styles.container}>
-      {isEditing && (
-        <>
-          <View style={styles.btnContainer}>
-            <Button mode={"flat"} onPresshandler={onCancelHandler}>
-              Cancel
-            </Button>
-            <Button onPresshandler={onAddHandler}>Add</Button>
-          </View>
-          <View style={styles.deleteBtnContainer}>
-            <IconButton
-              onPresshandler={onDeleteHandler}
-              iconTitle='trash'
-              color={colorPallete.Claret}
-              size={32}
-            />
-          </View>
-        </>
-      )}
+      <View style={styles.btnContainer}>
+        <Button
+          mode={"flat"}
+          style={styles.btnContainerIn}
+          onPresshandler={onCancelHandler}
+        >
+          Cancel
+        </Button>
+        <Button style={styles.btnContainerIn} onPresshandler={onAddHandler}>
+          {isEditing ? "Update" : "Add"}
+        </Button>
+      </View>
     </View>
   );
 };
@@ -51,6 +58,9 @@ const ManageExpense = ({ navigation, route }) => {
 export default ManageExpense;
 
 const styles = StyleSheet.create({
+  btnContainerIn: {
+    borderRadius: 6,
+  },
   btnContainer: {
     flexDirection: "row",
     alignItems: "center",
