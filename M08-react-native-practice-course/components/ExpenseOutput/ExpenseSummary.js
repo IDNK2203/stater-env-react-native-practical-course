@@ -3,7 +3,6 @@ import { colorPallete } from "../../utils/colors";
 
 const ExpenseSummary = ({ expenses, expensePeriod }) => {
   const expenseSum = expenses.reduce((sum, item) => sum + item.amount, 0);
-  console.log(expenseSum);
   return (
     <View style={styles.container}>
       <Text style={styles.text}> {expensePeriod}</Text>

@@ -8,7 +8,7 @@ const reducer = (state, action) => {
       };
 
     case "DELETE_EXPENSE":
-      const newExpenseState0 = { ...state }.expense.filter(
+      const newExpenseState0 = { ...state }.expenses.filter(
         (expense) => expense.id != action.payload.id
       );
       return {
@@ -17,8 +17,8 @@ const reducer = (state, action) => {
       };
 
     case "UPDATE_EXPENSE":
-      const newExpenseState1 = [...state.expenses].map((el) =>
-        el === action.payload.id ? action.payload : el
+      const newExpenseState1 = [...state.expenses].map((expense) =>
+        expense.id === action.payload.id ? action.payload : expense
       );
       return {
         ...state,

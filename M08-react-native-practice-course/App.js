@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colorPallete } from "./utils/colors";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "./components/IconButton";
+import { ExpenseContextProvider } from "./store/expenseContext";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -81,35 +82,37 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style='light' />
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: colorPallete.Darkpurple,
-            height: 100,
-          },
+      <ExpenseContextProvider>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: colorPallete.Darkpurple,
+              height: 100,
+            },
 
-          contentStyle: { backgroundColor: colorPallete.Richblack },
-          headerTintColor: "#fff",
-          headerTitleAlign: "center",
-        }}
-      >
-        <Stack.Screen
-          options={{
-            headerShown: false,
+            contentStyle: { backgroundColor: colorPallete.Richblack },
+            headerTintColor: "#fff",
+            headerTitleAlign: "center",
           }}
-          name={"ExpenseOverView"}
-          component={ExpenseOverView}
-        />
+        >
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name={"ExpenseOverView"}
+            component={ExpenseOverView}
+          />
 
-        <Stack.Screen
-          options={{
-            title: "Manage Expense",
-            presentation: "modal",
-          }}
-          name={"ManageExpense"}
-          component={ManageExpense}
-        />
-      </Stack.Navigator>
+          <Stack.Screen
+            options={{
+              title: "Manage Expense",
+              presentation: "modal",
+            }}
+            name={"ManageExpense"}
+            component={ManageExpense}
+          />
+        </Stack.Navigator>
+      </ExpenseContextProvider>
     </NavigationContainer>
   );
 }

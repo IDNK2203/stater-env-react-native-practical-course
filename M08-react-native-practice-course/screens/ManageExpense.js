@@ -12,10 +12,33 @@ const ManageExpense = ({ navigation, route }) => {
 
   const onDeleteHandler = () => {
     dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
-    navigation.goBack();
     console.log(state);
+    navigation.goBack();
   };
   const onAddHandler = () => {
+    dispatch({
+      type: "ADD_EXPENSE",
+      payload: {
+        description: "A pair of Vans 👟",
+        amount: 79.99,
+        date: new Date("2023-07-31"),
+      },
+    });
+
+    navigation.goBack();
+  };
+
+  const onUpdateHandler = () => {
+    dispatch({
+      type: "UPDATE_EXPENSE",
+      payload: {
+        id: expenseId,
+        description: "A pair of Jordans 👟",
+        amount: 90.0,
+        date: new Date("2023-07-28"),
+      },
+    });
+
     navigation.goBack();
   };
   const onCancelHandler = () => {
@@ -47,7 +70,10 @@ const ManageExpense = ({ navigation, route }) => {
         >
           Cancel
         </Button>
-        <Button style={styles.btnContainerIn} onPresshandler={onAddHandler}>
+        <Button
+          style={styles.btnContainerIn}
+          onPresshandler={isEditing ? onUpdateHandler : onAddHandler}
+        >
           {isEditing ? "Update" : "Add"}
         </Button>
       </View>

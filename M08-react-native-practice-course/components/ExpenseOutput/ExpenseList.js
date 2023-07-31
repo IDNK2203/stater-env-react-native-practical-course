@@ -9,6 +9,7 @@ const ExpenseList = ({ expenses }) => {
     <View>
       <FlatList
         data={expenses}
+        style={styles.listContainer}
         renderItem={RenderExpenseItem}
         key={(item) => item.id}
       />
@@ -18,15 +19,7 @@ const ExpenseList = ({ expenses }) => {
 
 export default ExpenseList;
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-  },
-  container: {
-    flex: 1,
-    // backgroundColor: "#aff",
-    alignItems: "center",
-    justifyContent: "center",
+  listContainer: {
+    marginBottom: 36,
   },
 });
