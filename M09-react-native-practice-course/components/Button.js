@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     color: "black",
   },
   btnInner: {
-    padding: 8,
-    width: 125,
+    padding: 10,
+    width: 135,
     backgroundColor: colorPallete.accent500,
   },
   pressed: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "black",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "700",
     textAlign: "center",
   },

@@ -1,9 +1,10 @@
 import { useLayoutEffect } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import IconButton from "../components/IconButton";
 import { colorPallete } from "../utils/colors";
 import Button from "../components/Button";
 import { useExpenseContext } from "../store/expenseContext";
+import ExpenseForm from "../components/ExpenseForm/ExpenseForm";
 
 const ManageExpense = ({ navigation, route }) => {
   const { dispatch, state } = useExpenseContext();
@@ -62,6 +63,8 @@ const ManageExpense = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      {/* <ScrollView style={styles.scrollView}> */}
+      <ExpenseForm />
       <View style={styles.btnContainer}>
         <Button
           mode={"flat"}
@@ -77,6 +80,7 @@ const ManageExpense = ({ navigation, route }) => {
           {isEditing ? "Update" : "Add"}
         </Button>
       </View>
+      {/* </ScrollView> */}
     </View>
   );
 };
@@ -84,6 +88,15 @@ const ManageExpense = ({ navigation, route }) => {
 export default ManageExpense;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: 16,
+  },
+  scrollView: {
+    // flex: 1,
+  },
   btnContainerIn: {
     borderRadius: 6,
   },
@@ -98,11 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "white",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 16,
   },
   deleteBtnContainer: {
     height: 75,

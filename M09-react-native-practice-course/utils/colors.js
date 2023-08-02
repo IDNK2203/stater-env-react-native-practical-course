@@ -17,6 +17,7 @@ export const colorPallete = {
   Claret: "#7f273a",
   Richblack: "#191720",
   accent500: "#f7bc0c",
+  accent200: "#fff4d3",
   error50: "#fcc4e4",
   error500: "#9b095c",
   gray500: "#39324a",
