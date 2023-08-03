@@ -5,22 +5,26 @@ const ExpenseForm = () => {
   return (
     <View style={styles.expenseFormBox}>
       <Text style={styles.expenseTitle}>Create A New Expense</Text>
-      <Input
-        label={"Amount"}
-        inputConfig={{
-          keyboardType: "number-pad",
-          onChangeText: () => {},
-        }}
-      />
+      <View style={styles.inputRow}>
+        <Input
+          label={"Amount"}
+          style={styles.inputRowItem}
+          inputConfig={{
+            keyboardType: "number-pad",
+            onChangeText: () => {},
+          }}
+        />
 
-      <Input
-        label={"Date"}
-        inputConfig={{
-          maxLength: 10,
-          placeholder: "YYYY-MM-DD",
-          onChangeText: () => {},
-        }}
-      />
+        <Input
+          label={"Date"}
+          style={styles.inputRowItem}
+          inputConfig={{
+            maxLength: 10,
+            placeholder: "YYYY-MM-DD",
+            onChangeText: () => {},
+          }}
+        />
+      </View>
       <Input
         label={"Description"}
         inputConfig={{
@@ -40,6 +44,14 @@ const styles = StyleSheet.create({
   expenseFormBox: {
     paddingVertical: 8,
     // width: "100%",
+  },
+  inputRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  inputRowItem: {
+    flex: 1,
   },
   expenseTitle: {
     fontSize: 24,

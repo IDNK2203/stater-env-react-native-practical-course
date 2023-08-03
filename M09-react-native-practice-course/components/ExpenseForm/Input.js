@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { colorPallete } from "../../utils/colors";
 
-const Input = ({ inputConfig, label }) => {
+const Input = ({ inputConfig, label, style }) => {
   const inputStyle = [styles.input];
   if (inputConfig && inputConfig.multiline) {
     inputStyle.push(styles.multiLineInput);
   }
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, style]}>
       <Text style={styles.label}>{label}:</Text>
       <TextInput style={inputStyle} {...inputConfig} />
     </View>
@@ -20,6 +20,7 @@ export default Input;
 const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 4,
+    marginHorizontal: 4,
   },
   label: {
     fontSize: 20,
