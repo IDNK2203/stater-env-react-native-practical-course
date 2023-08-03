@@ -63,24 +63,24 @@ const ManageExpense = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {/* <ScrollView style={styles.scrollView}> */}
-      <ExpenseForm />
-      <View style={styles.btnContainer}>
-        <Button
-          mode={"flat"}
-          style={styles.btnContainerIn}
-          onPresshandler={onCancelHandler}
-        >
-          Cancel
-        </Button>
-        <Button
-          style={styles.btnContainerIn}
-          onPresshandler={isEditing ? onUpdateHandler : onAddHandler}
-        >
-          {isEditing ? "Update" : "Add"}
-        </Button>
-      </View>
-      {/* </ScrollView> */}
+      <ScrollView style={styles.scrollView}>
+        <ExpenseForm />
+        <View style={styles.btnContainer}>
+          <Button
+            mode={"flat"}
+            style={styles.btnContainerIn}
+            onPresshandler={onCancelHandler}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={styles.btnContainerIn}
+            onPresshandler={isEditing ? onUpdateHandler : onAddHandler}
+          >
+            {isEditing ? "Update" : "Add"}
+          </Button>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -95,7 +95,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   scrollView: {
-    // flex: 1,
+    flex: 1,
+    backgroundColor: colorPallete.Richblack,
+    width: "100%",
   },
   btnContainerIn: {
     borderRadius: 6,
@@ -105,7 +107,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginVertical: 8,
-    width: "100%",
+    // width: "100%",
+    height: 175,
   },
   text: {
     fontSize: 18,

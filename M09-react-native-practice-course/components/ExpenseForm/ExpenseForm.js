@@ -4,6 +4,7 @@ import Input from "./Input";
 const ExpenseForm = () => {
   return (
     <View style={styles.expenseFormBox}>
+      <Text style={styles.expenseTitle}>Create A New Expense</Text>
       <Input
         label={"Amount"}
         inputConfig={{
@@ -37,10 +38,14 @@ export default ExpenseForm;
 
 const styles = StyleSheet.create({
   expenseFormBox: {
-    marginBottom: 48,
     paddingVertical: 8,
-    width: "100%",
-    // flex: 1,
-    minHeight: "auto",
+    // width: "100%",
+  },
+  expenseTitle: {
+    fontSize: 24,
+    fontWeight: 700,
+    color: "white",
+    textAlign: "center",
+    marginVertical: 8,
   },
 });

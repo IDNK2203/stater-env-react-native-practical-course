@@ -9,7 +9,7 @@ const Input = ({ inputConfig, label }) => {
 
   return (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label}>{label}:</Text>
       <TextInput style={inputStyle} {...inputConfig} />
     </View>
   );
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     height: 60,
     fontSize: 18,
+    width: "100%",
   },
   multiLineInput: {
     minHeight: 125,
