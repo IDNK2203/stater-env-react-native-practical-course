@@ -2,39 +2,45 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import Input from "./Input";
 import Button from "../Button";
 import { colorPallete } from "../../utils/colors";
+import { useExpenseContext } from "../../store/expenseContext";
+import { useState } from "react";
+import { getFormattedDate } from "../../utils/date";
 
-const ExpenseForm = (
+const ExpenseForm = ({
   formMode,
+  expenseId,
   onCancelHandler,
   onUpdateHandler,
-  onAddHandler
-) => {
+  onAddHandler,
+}) => {
+  const { state } = useExpenseContext();
+  const expense = state.expenses.find((el) => el.id === expenseId);
+
   const [formState, setformState] = useState({
-    amount: "",
-    date: "",
-    description: "",
+    amount: formMode ? expense?.amount.toString() : "",
+    date: formMode ? getFormattedDate(expense?.date) : "",
+    description: formMode ? expense?.description : "",
   });
 
   const handleInputChange = (inputName, value) => {
-    setformState((prev) => ({
-      ...prev,
-      [inputName]: value,
-    }));
+    setformState((prev) => {
+      return {
+        ...prev,
+        [inputName]: value,
+      };
+    });
   };
 
   const onSubmitHandler = () => {
+    const formData = {
+      description: formState.description,
+      amount: +formState.amount,
+      date: new Date(formState.date),
+    };
     if (formMode) {
-      onUpdateHandler({
-        description: formState.description,
-        amount: +amount,
-        date: new Date(formState.date),
-      });
+      onUpdateHandler({ ...formData, id: expenseId });
     } else {
-      onAddHandler({
-        description: formState.description,
-        amount: +amount,
-        date: new Date(formState.date),
-      });
+      onAddHandler(formData);
     }
   };
 
@@ -49,9 +55,8 @@ const ExpenseForm = (
           style={styles.inputRowItem}
           inputConfig={{
             placeholder: "00.00",
-
             keyboardType: "number-pad",
-            onChangeText: handleInputChange.bind("amount"),
+            onChangeText: handleInputChange.bind(this, "amount"),
             value: formState.amount,
           }}
         />
@@ -62,7 +67,7 @@ const ExpenseForm = (
           inputConfig={{
             maxLength: 10,
             placeholder: "YYYY-MM-DD",
-            onChangeText: handleInputChange.bind("date"),
+            onChangeText: handleInputChange.bind(this, "date"),
             value: formState.date,
           }}
         />
@@ -70,7 +75,7 @@ const ExpenseForm = (
       <Input
         label={"Description"}
         inputConfig={{
-          onChangeText: handleInputChange.bind("description"),
+          onChangeText: handleInputChange.bind(this, "description"),
           value: formState.description,
           multiline: true,
           placeholder: "What did you spend money on😑",

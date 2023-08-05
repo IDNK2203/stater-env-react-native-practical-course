@@ -6,13 +6,12 @@ import { useExpenseContext } from "../store/expenseContext";
 import ExpenseForm from "../components/ExpenseForm/ExpenseForm";
 
 const ManageExpense = ({ navigation, route }) => {
-  const { dispatch, state } = useExpenseContext();
+  const { dispatch } = useExpenseContext();
   const expenseId = route.params?.expenseId;
   const formMode = !!expenseId;
-
+  console.log(expenseId);
   const onDeleteHandler = () => {
     dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
-    console.log(state);
     navigation.goBack();
   };
   const onAddHandler = (submissionData) => {
@@ -56,6 +55,7 @@ const ManageExpense = ({ navigation, route }) => {
       <ScrollView style={styles.scrollView}>
         <ExpenseForm
           formMode={formMode}
+          expenseId={expenseId}
           onUpdateHandler={onUpdateHandler}
           onAddHandler={onAddHandler}
           onCancelHandler={onCancelHandler}
