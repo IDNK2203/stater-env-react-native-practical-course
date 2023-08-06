@@ -57,9 +57,10 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     padding: 5,
     justifyContent: "center",
+    alignItems: "flex-end",
     height: 40,
     marginLeft: 5,
-    width: 75,
+    width: 125,
   },
   text: {
     fontSize: 16,
