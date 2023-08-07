@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { colorPallete } from "../../utils/colors";
 
-const Input = ({ inputConfig, label, style }) => {
+const Input = ({ inputConfig, label, style, children }) => {
   const inputStyle = [styles.input];
   if (inputConfig && inputConfig.multiline) {
     inputStyle.push(styles.multiLineInput);
@@ -11,6 +11,7 @@ const Input = ({ inputConfig, label, style }) => {
     <View style={[styles.inputContainer, style]}>
       <Text style={styles.label}>{label}:</Text>
       <TextInput style={inputStyle} {...inputConfig} />
+      {children}
     </View>
   );
 };

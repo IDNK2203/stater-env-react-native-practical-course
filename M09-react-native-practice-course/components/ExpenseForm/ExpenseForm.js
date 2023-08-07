@@ -71,7 +71,7 @@ const ExpenseForm = ({
         },
       }));
 
-      Alert.alert("Invalid Input", "Pls check your input and try again");
+      // Alert.alert("Invalid Input", "Pls check your input and try again");
       return;
     }
     console.log(formState);
@@ -97,7 +97,14 @@ const ExpenseForm = ({
             onChangeText: handleInputChange.bind(this, "amount"),
             value: formState.amount.value,
           }}
-        />
+        >
+          {!formState.amount?.validity && (
+            <View style={styles.errorMsgBox}>
+              <Text style={styles.errorMsg}> Invalid Amount</Text>
+            </View>
+          )}
+        </Input>
+
         <Input
           label={"Date"}
           style={styles.inputRowItem}
@@ -108,7 +115,13 @@ const ExpenseForm = ({
             onChangeText: handleInputChange.bind(this, "date"),
             value: formState.date.value,
           }}
-        />
+        >
+          {!formState.date?.validity && (
+            <View style={styles.errorMsgBox}>
+              <Text style={styles.errorMsg}> Invalid Date</Text>
+            </View>
+          )}
+        </Input>
       </View>
 
       <Input
@@ -122,12 +135,13 @@ const ExpenseForm = ({
           // autoCapitalize: 'none'
           // autoCorrect: false // default is true
         }}
-      />
-      {!formState.amount?.validity && <Text> Invalid amount Input</Text>}
-      {!formState.date?.validity && <Text> Invalid date Input</Text>}
-      {!formState.description?.validity && (
-        <Text> Invalid description Input</Text>
-      )}
+      >
+        {!formState.description?.validity && (
+          <View style={styles.errorMsgBox}>
+            <Text style={styles.errorMsg}> Invalid Description</Text>
+          </View>
+        )}
+      </Input>
       <View style={styles.btnContainer}>
         <Button
           mode={"flat"}
@@ -151,10 +165,22 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     // width: "100%",
   },
+  errorMsgBox: {
+    borderLeftWidth: 2,
+    paddingLeft: 2,
+    borderColor: colorPallete.Claret,
+    // maxWidth: "",
+  },
+  errorMsg: {
+    fontSize: 12,
+    color: colorPallete.Claret,
+    fontWeight: "900",
+  },
   inputRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    marginBottom: 8,
   },
   inputRowItem: {
     flex: 1,
