@@ -1,10 +1,18 @@
-import { StyleSheet, Text, View, Pressable, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Alert,
+  Platform,
+} from "react-native";
 import Input from "./Input";
 import Button from "../Button";
 import { colorPallete } from "../../utils/colors";
 import { useExpenseContext } from "../../store/expenseContext";
 import { useState } from "react";
 import { formatDateInput, getFormattedDate } from "../../utils/date";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const ExpenseForm = ({
   formMode,
@@ -15,6 +23,8 @@ const ExpenseForm = ({
 }) => {
   const { state } = useExpenseContext();
   const expense = state.expenses.find((el) => el.id === expenseId);
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  const present = Date.now();
 
   const [formState, setformState] = useState({
     amount: {
@@ -22,7 +32,7 @@ const ExpenseForm = ({
       validity: true,
     },
     date: {
-      value: formMode ? getFormattedDate(expense?.date) : "",
+      value: formMode ? getFormattedDate(expense?.date) : new Date(present),
       validity: true,
     },
     description: {
@@ -31,29 +41,38 @@ const ExpenseForm = ({
     },
   });
 
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
+
+  console.log(isPickerShow);
   const handleInputChange = (inputName, value) => {
-    setformState((prev) => {
-      return {
-        ...prev,
-        [inputName]: {
-          ...prev[inputName],
-          value: value,
-        },
-      };
-    });
+    if (Platform.OS === "android") {
+      setIsPickerShow(false);
+    }
+
+    // setformState((prev) => {
+    //   return {
+    //     ...prev,
+    //     [inputName]: {
+    //       ...prev[inputName],
+    //       value: value,
+    //     },
+    //   };
+    // });
   };
 
   const onSubmitHandler = () => {
     const formData = {
       description: formState.description.value,
       amount: +formState.amount.value,
-      date: new Date(formatDateInput(formState.date.value)),
+      date: new Date(formState.date.value),
     };
 
     const isDateValid = new Date(formData.date).toString() !== "Invalid Date";
     const isDescriptionValid = formData.description.trim().length > 0;
     const isAmountValid = !isNaN(formData.amount) && formData.amount > 0;
-    console.log(formState);
+    // console.log(formState);
     if (!isDateValid || !isDescriptionValid || !isAmountValid) {
       setformState((prev) => ({
         ...prev,
@@ -87,6 +106,19 @@ const ExpenseForm = ({
       <Text style={styles.expenseTitle}>
         {formMode ? "Edit This Expense" : "Create A New Expense"}
       </Text>
+      {/* The date picker */}
+      {isPickerShow && (
+        <DateTimePicker
+        testID=""
+          value={formState.date.value}
+          mode={"date"}
+          display={Platform.OS === "ios" ? "spinner" : "default"}
+          is24Hour={true}
+          onChange={handleInputChange.bind(this, "date")}
+          style={styles.datePicker}
+
+        />
+      )}
       <View style={styles.inputRow}>
         <Input
           label={"Amount"}
@@ -105,23 +137,26 @@ const ExpenseForm = ({
           )}
         </Input>
 
-        <Input
-          label={"Date"}
-          style={styles.inputRowItem}
-          inputConfig={{
-            keyboardType: "numeric",
-            maxLength: 10,
-            placeholder: "YYYY-MM-DD",
-            onChangeText: handleInputChange.bind(this, "date"),
-            value: formState.date.value,
-          }}
-        >
-          {!formState.date?.validity && (
-            <View style={styles.errorMsgBox}>
-              <Text style={styles.errorMsg}> Invalid Date</Text>
-            </View>
-          )}
-        </Input>
+        <Pressable style={styles.inputRowItem} onPress={showPicker}>
+          <Input
+            label={"Date"}
+            style={styles.inputRowItem}
+            inputConfig={{
+              keyboardType: "numeric",
+              maxLength: 10,
+              placeholder: "YYYY-MM-DD",
+              // onclick: showPicker,
+              // onChangeText: handleInputChange.bind(this, "date"),
+              value: getFormattedDate(formState.date.value),
+            }}
+          >
+            {!formState.date?.validity && (
+              <View style={styles.errorMsgBox}>
+                <Text style={styles.errorMsg}> Invalid Date</Text>
+              </View>
+            )}
+          </Input>
+        </Pressable>
       </View>
 
       <Input
@@ -214,5 +249,12 @@ const styles = StyleSheet.create({
     borderColor: colorPallete.accent500,
     borderTopWidth: 2,
     alignItems: "center",
+  },
+  datePicker: {
+    width: 320,
+    height: 260,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
 });
