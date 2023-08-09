@@ -45,21 +45,25 @@ const ExpenseForm = ({
     setIsPickerShow(true);
   };
 
-  console.log(isPickerShow);
+  // console.log(isPickerShow);
   const handleInputChange = (inputName, value) => {
     if (Platform.OS === "android") {
       setIsPickerShow(false);
     }
 
-    // setformState((prev) => {
-    //   return {
-    //     ...prev,
-    //     [inputName]: {
-    //       ...prev[inputName],
-    //       value: value,
-    //     },
-    //   };
-    // });
+    if (inputName === "date") {
+      value = new Date(value.nativeEvent.timestamp);
+    }
+    console.log(inputName, value);
+    setformState((prev) => {
+      return {
+        ...prev,
+        [inputName]: {
+          ...prev[inputName],
+          value: value,
+        },
+      };
+    });
   };
 
   const onSubmitHandler = () => {
@@ -109,14 +113,13 @@ const ExpenseForm = ({
       {/* The date picker */}
       {isPickerShow && (
         <DateTimePicker
-        testID=""
+          testID='expense_date'
           value={formState.date.value}
           mode={"date"}
           display={Platform.OS === "ios" ? "spinner" : "default"}
           is24Hour={true}
           onChange={handleInputChange.bind(this, "date")}
           style={styles.datePicker}
-
         />
       )}
       <View style={styles.inputRow}>

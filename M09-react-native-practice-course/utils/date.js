@@ -15,10 +15,11 @@ export function formatDateInput(input) {
   if (matches) {
     return input;
   }
-
+  console.log(inp);
   const year = input.slice(0, 4);
   const month = input.slice(4, 6);
   const day = input.slice(6);
   const d = `${year}-${month}-${day}`;
+  console.log(d);
   return d;
 }
