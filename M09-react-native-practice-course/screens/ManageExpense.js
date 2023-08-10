@@ -70,7 +70,7 @@ export default ManageExpense;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "flex-start",
     padding: 16,
   },

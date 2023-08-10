@@ -32,7 +32,7 @@ const ExpenseForm = ({
       validity: true,
     },
     date: {
-      value: formMode ? getFormattedDate(expense?.date) : new Date(present),
+      value: formMode ? expense?.date : new Date(present),
       validity: true,
     },
     description: {
@@ -45,7 +45,6 @@ const ExpenseForm = ({
     setIsPickerShow(true);
   };
 
-  // console.log(isPickerShow);
   const handleInputChange = (inputName, value) => {
     if (Platform.OS === "android") {
       setIsPickerShow(false);
@@ -54,7 +53,6 @@ const ExpenseForm = ({
     if (inputName === "date") {
       value = new Date(value.nativeEvent.timestamp);
     }
-    console.log(inputName, value);
     setformState((prev) => {
       return {
         ...prev,
@@ -76,7 +74,6 @@ const ExpenseForm = ({
     const isDateValid = new Date(formData.date).toString() !== "Invalid Date";
     const isDescriptionValid = formData.description.trim().length > 0;
     const isAmountValid = !isNaN(formData.amount) && formData.amount > 0;
-    // console.log(formState);
     if (!isDateValid || !isDescriptionValid || !isAmountValid) {
       setformState((prev) => ({
         ...prev,
@@ -97,7 +94,6 @@ const ExpenseForm = ({
       // Alert.alert("Invalid Input", "Pls check your input and try again");
       return;
     }
-    console.log(formState);
     if (formMode) {
       onUpdateHandler({ ...formData, id: expenseId });
     } else {
@@ -148,7 +144,8 @@ const ExpenseForm = ({
               keyboardType: "numeric",
               maxLength: 10,
               placeholder: "YYYY-MM-DD",
-              // onclick: showPicker,
+              onFocus: showPicker,
+              editable: false,
               // onChangeText: handleInputChange.bind(this, "date"),
               value: getFormattedDate(formState.date.value),
             }}
@@ -168,6 +165,7 @@ const ExpenseForm = ({
           onChangeText: handleInputChange.bind(this, "description"),
           value: formState.description.value,
           multiline: true,
+
           placeholder: "What did you spend money on😑",
 
           // autoCapitalize: 'none'
@@ -199,6 +197,9 @@ const ExpenseForm = ({
 export default ExpenseForm;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   expenseFormBox: {
     paddingVertical: 8,
     // width: "100%",
@@ -207,7 +208,6 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     paddingLeft: 2,
     borderColor: colorPallete.Claret,
-    // maxWidth: "",
   },
   errorMsg: {
     fontSize: 12,
@@ -238,7 +238,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginVertical: 8,
-    // width: "100%",
     height: 175,
   },
   text: {
