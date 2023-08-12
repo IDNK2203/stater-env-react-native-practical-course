@@ -13,6 +13,7 @@ import { useExpenseContext } from "../../store/expenseContext";
 import { useState } from "react";
 import { formatDateInput, getFormattedDate } from "../../utils/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { usePostExpense } from "../../hooks/usePostExpenses";
 
 const ExpenseForm = ({
   formMode,
@@ -64,40 +65,46 @@ const ExpenseForm = ({
     });
   };
 
-  const onSubmitHandler = () => {
-    const formData = {
-      description: formState.description.value,
-      amount: +formState.amount.value,
-      date: new Date(formState.date.value),
-    };
+  const onSubmitHandler = async () => {
+    try {
+      const formData = {
+        description: formState.description.value,
+        amount: +formState.amount.value,
+        date: new Date(formState.date.value),
+      };
 
-    const isDateValid = new Date(formData.date).toString() !== "Invalid Date";
-    const isDescriptionValid = formData.description.trim().length > 0;
-    const isAmountValid = !isNaN(formData.amount) && formData.amount > 0;
-    if (!isDateValid || !isDescriptionValid || !isAmountValid) {
-      setformState((prev) => ({
-        ...prev,
-        ["description"]: {
-          ...prev["description"],
-          validity: isDescriptionValid,
-        },
-        ["amount"]: {
-          ...prev["amount"],
-          validity: isAmountValid,
-        },
-        ["date"]: {
-          ...prev["date"],
-          validity: isDateValid,
-        },
-      }));
+      const isDateValid = new Date(formData.date).toString() !== "Invalid Date";
+      const isDescriptionValid = formData.description.trim().length > 0;
+      const isAmountValid = !isNaN(formData.amount) && formData.amount > 0;
+      if (!isDateValid || !isDescriptionValid || !isAmountValid) {
+        setformState((prev) => ({
+          ...prev,
+          ["description"]: {
+            ...prev["description"],
+            validity: isDescriptionValid,
+          },
+          ["amount"]: {
+            ...prev["amount"],
+            validity: isAmountValid,
+          },
+          ["date"]: {
+            ...prev["date"],
+            validity: isDateValid,
+          },
+        }));
 
-      // Alert.alert("Invalid Input", "Pls check your input and try again");
-      return;
-    }
-    if (formMode) {
-      onUpdateHandler({ ...formData, id: expenseId });
-    } else {
-      onAddHandler(formData);
+        // Alert.alert("Invalid Input", "Pls check your input and try again");
+        return;
+      }
+      if (formMode) {
+        onUpdateHandler({ ...formData, id: expenseId });
+      } else {
+        const data = await usePostExpense(formData);
+        console.log(data.data);
+        // onAddHandler(formData);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
