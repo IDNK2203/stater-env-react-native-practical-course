@@ -4,7 +4,7 @@ import { DUMMY_EXPENSES } from "../data/dummy-data";
 
 // Initial State
 const initialState = {
-  expenses: DUMMY_EXPENSES,
+  expenses: [],
 };
 
 // Create Our context

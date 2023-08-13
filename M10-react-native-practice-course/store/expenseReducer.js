@@ -1,10 +1,15 @@
 const reducer = (state, action) => {
   switch (action.type) {
-    case "ADD_EXPENSE":
-      const id = new Date().toString() + Math.random().toString();
+    case "SET_EXPENSES":
       return {
         ...state,
-        expenses: [...state.expenses, { ...action.payload, id: id }],
+        expenses: [...action.payload],
+      };
+
+    case "ADD_EXPENSE":
+      return {
+        ...state,
+        expenses: [...state.expenses, { ...action.payload }],
       };
 
     case "DELETE_EXPENSE":

@@ -13,7 +13,7 @@ import { useExpenseContext } from "../../store/expenseContext";
 import { useState } from "react";
 import { formatDateInput, getFormattedDate } from "../../utils/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { usePostExpense } from "../../hooks/usePostExpenses";
+import { usePostExpense } from "../../hooks/expenses";
 
 const ExpenseForm = ({
   formMode,
@@ -100,8 +100,7 @@ const ExpenseForm = ({
         onUpdateHandler({ ...formData, id: expenseId });
       } else {
         const data = await usePostExpense(formData);
-        console.log(data.data);
-        // onAddHandler(formData);
+        onAddHandler({ ...formData, id: data.data.name });
       }
     } catch (error) {
       console.log(error);
