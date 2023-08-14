@@ -1,5 +1,18 @@
 import httpInstance from "../httpClient/client";
 
+function transfromResponse(response, expensesList) {
+  for (const key in response.data) {
+    const expenseItem = {
+      id: key,
+      description: response.data[key].description,
+      amount: response.data[key].amount,
+      date: new Date(response.data[key].date),
+    };
+    expensesList.push(expenseItem);
+  }
+  return expensesList;
+}
+
 export const usePostExpense = async (data) => {
   try {
     const expense = await httpInstance.post("expenses.json", data);
@@ -8,22 +21,29 @@ export const usePostExpense = async (data) => {
     console.log(error);
   }
 };
+export const useUpdateExpense = async (data, id) => {
+  try {
+    const response = await httpInstance.put(`expenses/${id}.json`, data);
+    const expensesList = transfromResponse(response, []);
 
-export const useGetExpense = async (data) => {
+    return expensesList;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const useDeleteExpense = async (id) => {
+  try {
+    const expense = await httpInstance.delete(`expenses/${id}.json`);
+    return expense;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const useGetExpense = async () => {
   try {
     const response = await httpInstance.get("expenses.json");
-    console.log(response.data);
-    const expensesList = [];
-
-    for (const key in response.data) {
-      const expenseItem = {
-        id: key,
-        description: response.data[key].description,
-        amount: response.data[key].amount,
-        date: new Date(response.data[key].date),
-      };
-      expensesList.push(expenseItem);
-    }
+    const expensesList = transfromResponse(response, []);
 
     return expensesList;
   } catch (error) {

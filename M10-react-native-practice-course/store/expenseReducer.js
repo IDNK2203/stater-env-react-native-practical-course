@@ -1,15 +1,16 @@
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_EXPENSES":
+      const newExpense = [...action.payload].reverse();
       return {
         ...state,
-        expenses: [...action.payload],
+        expenses: newExpense,
       };
 
     case "ADD_EXPENSE":
       return {
         ...state,
-        expenses: [...state.expenses, { ...action.payload }],
+        expenses: [{ ...action.payload }, ...state.expenses],
       };
 
     case "DELETE_EXPENSE":

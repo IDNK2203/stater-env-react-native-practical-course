@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import reducer from "./expenseReducer";
-import { DUMMY_EXPENSES } from "../data/dummy-data";
+// import { DUMMY_EXPENSES } from "../data/dummy-data";
 
 // Initial State
 const initialState = {

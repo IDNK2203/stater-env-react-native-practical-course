@@ -4,15 +4,21 @@ import IconButton from "../components/IconButton";
 import { colorPallete } from "../utils/colors";
 import { useExpenseContext } from "../store/expenseContext";
 import ExpenseForm from "../components/ExpenseForm/ExpenseForm";
+import { useDeleteExpense, useUpdateExpense } from "../hooks/expenses";
 
 const ManageExpense = ({ navigation, route }) => {
   const { dispatch } = useExpenseContext();
   const expenseId = route.params?.expenseId;
   const formMode = !!expenseId;
   console.log(expenseId);
-  const onDeleteHandler = () => {
-    dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
-    navigation.goBack();
+  const onDeleteHandler = async () => {
+    try {
+      await useDeleteExpense(expenseId);
+      dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const onAddHandler = (submissionData) => {
     dispatch({
@@ -23,13 +29,18 @@ const ManageExpense = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const onUpdateHandler = (submissionData) => {
-    dispatch({
-      type: "UPDATE_EXPENSE",
-      payload: submissionData,
-    });
+  const onUpdateHandler = async (submissionData) => {
+    try {
+      const data = await useUpdateExpense(submissionData, expenseId);
+      dispatch({
+        type: "UPDATE_EXPENSE",
+        payload: submissionData,
+      });
 
-    navigation.goBack();
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const onCancelHandler = () => {
     navigation.goBack();
