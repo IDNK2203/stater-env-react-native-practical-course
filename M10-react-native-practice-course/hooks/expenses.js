@@ -13,14 +13,6 @@ function transfromResponse(response, expensesList) {
   return expensesList;
 }
 
-export const usePostExpense = async (data) => {
-  try {
-    const expense = await httpInstance.post("expenses.json", data);
-    return expense;
-  } catch (error) {
-    console.log(error);
-  }
-};
 export const useUpdateExpense = async (data, id) => {
   try {
     const response = await httpInstance.put(`expenses/${id}.json`, data);
@@ -34,6 +26,15 @@ export const useUpdateExpense = async (data, id) => {
 export const useDeleteExpense = async (id) => {
   try {
     const expense = await httpInstance.delete(`expenses/${id}.json`);
+    return expense;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const usePostExpense = async (data) => {
+  try {
+    const expense = await httpInstance.post("expenses.json", data);
     return expense;
   } catch (error) {
     console.log(error);
