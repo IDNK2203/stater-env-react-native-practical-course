@@ -1,9 +1,10 @@
 import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { colorPallete } from "../utils/colors";
 
 const Loader = () => {
   return (
     <View style={styles.loaderBox}>
-      <ActivityIndicator size={"small"} />
+      <ActivityIndicator size={"small"} color={colorPallete.accent500} />
     </View>
   );
 };

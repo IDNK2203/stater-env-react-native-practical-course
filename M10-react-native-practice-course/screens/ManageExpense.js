@@ -19,6 +19,7 @@ const ManageExpense = ({ navigation, route }) => {
 
   const onDeleteHandler = async () => {
     try {
+      setIsFetching(true);
       await useDeleteExpense(expenseId);
       dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
       navigation.goBack();
@@ -34,7 +35,7 @@ const ManageExpense = ({ navigation, route }) => {
         type: "ADD_EXPENSE",
         payload: { ...submissionData, id: data.data.name },
       });
-      setIsFetching(false);
+      // setIsFetching(false);
       navigation.goBack();
     } catch (error) {
       console.log(error);
@@ -49,7 +50,7 @@ const ManageExpense = ({ navigation, route }) => {
         type: "UPDATE_EXPENSE",
         payload: submissionData,
       });
-      setIsFetching(false);
+      // setIsFetching(false);
 
       navigation.goBack();
     } catch (error) {
@@ -61,9 +62,9 @@ const ManageExpense = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  if (isFetching) {
-    return <Loader />;
-  }
+  // if (isFetching) {
+  //   return;
+  // }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -83,13 +84,17 @@ const ManageExpense = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <ExpenseForm
-          formMode={formMode}
-          expenseId={expenseId}
-          onUpdateHandler={onUpdateHandler}
-          onAddHandler={onAddHandler}
-          onCancelHandler={onCancelHandler}
-        />
+        {isFetching ? (
+          <Loader />
+        ) : (
+          <ExpenseForm
+            formMode={formMode}
+            expenseId={expenseId}
+            onUpdateHandler={onUpdateHandler}
+            onAddHandler={onAddHandler}
+            onCancelHandler={onCancelHandler}
+          />
+        )}
       </ScrollView>
     </View>
   );
