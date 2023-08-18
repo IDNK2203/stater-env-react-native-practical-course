@@ -4,10 +4,12 @@ import { useExpenseContext } from "../store/expenseContext";
 import { getDateMinusDays } from "../utils/date";
 import { useGetExpense } from "../hooks/expenses";
 import Loader from "../components/Loader";
+import ErrorOverlay from "../components/ErrorOverlay";
 
 const RecentExpenses = () => {
   const { state, dispatch } = useExpenseContext();
   const [isFetching, setIsFetching] = useState(true);
+  const [isError, setIsError] = useState(null);
 
   const recentExpenses = state.expenses.filter((expense) => {
     const today = new Date();
@@ -18,10 +20,18 @@ const RecentExpenses = () => {
 
   useEffect(() => {
     async function fetchExpense() {
-      setIsFetching(true);
-      const expenses = await useGetExpense();
-      dispatch({ type: "SET_EXPENSES", payload: expenses });
-      setIsFetching(false);
+      try {
+        setIsFetching(true);
+        const expenses = await useGetExpense();
+        console.log("why", expenses);
+        dispatch({ type: "SET_EXPENSES", payload: expenses });
+        setIsFetching(false);
+      } catch (error) {
+        console.log(error);
+        // setIsError(error.message);
+      } finally {
+        // setIsFetching(false);
+      }
     }
     fetchExpense();
   }, []);
@@ -29,6 +39,16 @@ const RecentExpenses = () => {
   if (isFetching) {
     return <Loader />;
   }
+
+  // if (!isFetching && isError) {
+  //   return (
+  //     <ErrorOverlay
+  //       eventHandler={() => {}}
+  //       title={isError.message}
+  //       message={"error fetching recent expenses"}
+  //     />
+  //   );
+  // }
 
   return (
     <ExpenseOutpt

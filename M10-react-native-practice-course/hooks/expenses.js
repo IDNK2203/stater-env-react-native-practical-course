@@ -49,5 +49,6 @@ export const useGetExpense = async () => {
     return expensesList;
   } catch (error) {
     console.log(error);
+    // return error;
   }
 };
