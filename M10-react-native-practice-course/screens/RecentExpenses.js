@@ -5,11 +5,13 @@ import { getDateMinusDays } from "../utils/date";
 import { useGetExpense } from "../hooks/expenses";
 import Loader from "../components/Loader";
 import ErrorOverlay from "../components/ErrorOverlay";
+import { useNavigation } from "@react-navigation/native";
 
 const RecentExpenses = () => {
   const { state, dispatch } = useExpenseContext();
+  const navigation = useNavigation();
   const [isFetching, setIsFetching] = useState(true);
-  const [isError, setIsError] = useState(null);
+  const [isError, setIsError] = useState({ error: false, message: "" });
 
   const recentExpenses = state.expenses.filter((expense) => {
     const today = new Date();
@@ -23,14 +25,11 @@ const RecentExpenses = () => {
       try {
         setIsFetching(true);
         const expenses = await useGetExpense();
-        console.log("why", expenses);
         dispatch({ type: "SET_EXPENSES", payload: expenses });
-        setIsFetching(false);
       } catch (error) {
-        console.log(error);
-        // setIsError(error.message);
+        setIsError((e) => ({ error: true, message: error.message }));
       } finally {
-        // setIsFetching(false);
+        setIsFetching(false);
       }
     }
     fetchExpense();
@@ -40,15 +39,17 @@ const RecentExpenses = () => {
     return <Loader />;
   }
 
-  // if (!isFetching && isError) {
-  //   return (
-  //     <ErrorOverlay
-  //       eventHandler={() => {}}
-  //       title={isError.message}
-  //       message={"error fetching recent expenses"}
-  //     />
-  //   );
-  // }
+  if (!isFetching && isError.error) {
+    return (
+      <ErrorOverlay
+        eventHandler={() => {
+          navigation.navigate("AllExpenses");
+        }}
+        title={isError.message}
+        message={"error fetching recent expenses"}
+      />
+    );
+  }
 
   return (
     <ExpenseOutpt

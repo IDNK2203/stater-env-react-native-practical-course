@@ -10,9 +10,12 @@ import {
   useUpdateExpense,
 } from "../hooks/expenses";
 import Loader from "../components/Loader";
+import ErrorOverlay from "../components/ErrorOverlay";
 
 const ManageExpense = ({ navigation, route }) => {
   const [isFetching, setIsFetching] = useState(false);
+  const [isError, setIsError] = useState({ error: false, message: "" });
+
   const { dispatch } = useExpenseContext();
   const expenseId = route.params?.expenseId;
   const formMode = !!expenseId;
@@ -24,7 +27,9 @@ const ManageExpense = ({ navigation, route }) => {
       dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
       navigation.goBack();
     } catch (error) {
-      console.log(error);
+      setIsError((e) => ({ error: true, message: error.message }));
+    } finally {
+      setIsFetching(false);
     }
   };
   const onAddHandler = async (submissionData) => {
@@ -35,10 +40,11 @@ const ManageExpense = ({ navigation, route }) => {
         type: "ADD_EXPENSE",
         payload: { ...submissionData, id: data.data.name },
       });
-      // setIsFetching(false);
       navigation.goBack();
     } catch (error) {
-      console.log(error);
+      setIsError((e) => ({ error: true, message: error.message }));
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -50,21 +56,17 @@ const ManageExpense = ({ navigation, route }) => {
         type: "UPDATE_EXPENSE",
         payload: submissionData,
       });
-      // setIsFetching(false);
-
       navigation.goBack();
     } catch (error) {
-      console.log(error);
+      setIsError((e) => ({ error: true, message: error.message }));
+    } finally {
+      setIsFetching(false);
     }
   };
 
   const onCancelHandler = () => {
     navigation.goBack();
   };
-
-  // if (isFetching) {
-  //   return;
-  // }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -81,6 +83,17 @@ const ManageExpense = ({ navigation, route }) => {
     });
   }, [formMode, navigation]);
 
+  if (!isFetching && isError.error) {
+    return (
+      <ErrorOverlay
+        eventHandler={() => {
+          navigation.navigate("AllExpenses");
+        }}
+        title={isError.message}
+        // message={isError.status}
+      />
+    );
+  }
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>

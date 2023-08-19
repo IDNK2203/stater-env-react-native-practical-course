@@ -20,15 +20,17 @@ export const useUpdateExpense = async (data, id) => {
 
     return expensesList;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 export const useDeleteExpense = async (id) => {
   try {
     const expense = await httpInstance.delete(`expenses/${id}.json`);
+    console.log(expense);
     return expense;
   } catch (error) {
-    console.log(error);
+    console.log("error");
+    throw error;
   }
 };
 
@@ -37,7 +39,7 @@ export const usePostExpense = async (data) => {
     const expense = await httpInstance.post("expenses.json", data);
     return expense;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -45,10 +47,8 @@ export const useGetExpense = async () => {
   try {
     const response = await httpInstance.get("expenses.json");
     const expensesList = transfromResponse(response, []);
-
     return expensesList;
   } catch (error) {
-    console.log(error);
-    // return error;
+    throw error;
   }
 };
