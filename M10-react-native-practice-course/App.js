@@ -9,7 +9,10 @@ import { colorPallete } from "./utils/colors";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "./components/IconButton";
 import { ExpenseContextProvider } from "./store/expenseContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+// Create a client
+const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
@@ -80,39 +83,41 @@ const ExpenseOverView = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style='light' />
-      <ExpenseContextProvider>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: colorPallete.Darkpurple,
-              height: 100,
-            },
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <StatusBar style='light' />
+        <ExpenseContextProvider>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: colorPallete.Darkpurple,
+                height: 100,
+              },
 
-            contentStyle: { backgroundColor: colorPallete.Richblack },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-          }}
-        >
-          <Stack.Screen
-            options={{
-              headerShown: false,
+              contentStyle: { backgroundColor: colorPallete.Richblack },
+              headerTintColor: "#fff",
+              headerTitleAlign: "center",
             }}
-            name={"ExpenseOverView"}
-            component={ExpenseOverView}
-          />
+          >
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name={"ExpenseOverView"}
+              component={ExpenseOverView}
+            />
 
-          <Stack.Screen
-            options={{
-              title: "Manage Expense",
-              presentation: "modal",
-            }}
-            name={"ManageExpense"}
-            component={ManageExpense}
-          />
-        </Stack.Navigator>
-      </ExpenseContextProvider>
-    </NavigationContainer>
+            <Stack.Screen
+              options={{
+                title: "Manage Expense",
+                presentation: "modal",
+              }}
+              name={"ManageExpense"}
+              component={ManageExpense}
+            />
+          </Stack.Navigator>
+        </ExpenseContextProvider>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }

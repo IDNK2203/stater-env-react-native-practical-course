@@ -8,44 +8,26 @@ import ErrorOverlay from "../components/ErrorOverlay";
 import { useNavigation } from "@react-navigation/native";
 
 const RecentExpenses = () => {
-  const { state, dispatch } = useExpenseContext();
+  const { status, data, error, isFetching } = useGetExpense();
   const navigation = useNavigation();
-  const [isFetching, setIsFetching] = useState(true);
-  const [isError, setIsError] = useState({ error: false, message: "" });
 
-  const recentExpenses = state.expenses.filter((expense) => {
+  const recentExpenses = data?.filter((expense) => {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7);
-
     return expense.date >= date7DaysAgo && expense.date <= today;
   });
 
-  useEffect(() => {
-    async function fetchExpense() {
-      try {
-        setIsFetching(true);
-        const expenses = await useGetExpense();
-        dispatch({ type: "SET_EXPENSES", payload: expenses });
-      } catch (error) {
-        setIsError((e) => ({ error: true, message: error.message }));
-      } finally {
-        setIsFetching(false);
-      }
-    }
-    fetchExpense();
-  }, []);
-
-  if (isFetching) {
+  if (status === "loading") {
     return <Loader />;
   }
 
-  if (!isFetching && isError.error) {
+  if (!isFetching && status === "error") {
     return (
       <ErrorOverlay
         eventHandler={() => {
           navigation.navigate("AllExpenses");
         }}
-        title={isError.message}
+        title={error.message}
         message={"error fetching recent expenses"}
       />
     );

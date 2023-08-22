@@ -1,4 +1,8 @@
 import httpInstance from "../httpClient/client";
+import {
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 
 function transfromResponse(response, expensesList) {
   for (const key in response.data) {
@@ -43,12 +47,17 @@ export const usePostExpense = async (data) => {
   }
 };
 
-export const useGetExpense = async () => {
-  try {
-    const response = await httpInstance.get("expenses.json");
-    const expensesList = transfromResponse(response, []);
-    return expensesList;
-  } catch (error) {
-    throw error;
-  }
-};
+export const useGetExpense = ()=>{
+  return useQuery({
+    queryKey: ['expenses'],
+    queryFn: async () => {
+      try {
+        const response = await httpInstance.get("expenses.json");
+        const expensesList = transfromResponse(response, []);
+        return expensesList;
+      } catch (error) {
+        throw error;
+      }},
+  });
+}
+
