@@ -6,11 +6,12 @@ import { useGetExpense } from "../hooks/expenses";
 import Loader from "../components/Loader";
 import ErrorOverlay from "../components/ErrorOverlay";
 import { useNavigation } from "@react-navigation/native";
+import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
 
 const RecentExpenses = () => {
-  const { status, data, error, isFetching } = useGetExpense();
+  const { status, data, error, isFetching, refetch } = useGetExpense();
   const navigation = useNavigation();
-
+  useRefreshOnFocus(refetch);
   const recentExpenses = data?.filter((expense) => {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7);

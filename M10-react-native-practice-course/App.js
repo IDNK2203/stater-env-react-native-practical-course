@@ -9,12 +9,24 @@ import { colorPallete } from "./utils/colors";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "./components/IconButton";
 import { ExpenseContextProvider } from "./store/expenseContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import {
+  QueryClient,
+  QueryClientProvider,
+  focusManager,
+} from "@tanstack/react-query";
+import { useAppState } from "./hooks/useAppState";
+import { useOnlineManager } from "./hooks/useOnlineManager";
 // Create a client
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
+
+function onAppStateChange(status) {
+  // React Query already supports in web browser refetch on window focus by default
+  if (Platform.OS !== "web") {
+    focusManager.setFocused(status === "active");
+  }
+}
 
 const ExpenseOverView = () => {
   return (
@@ -82,6 +94,10 @@ const ExpenseOverView = () => {
 };
 
 export default function App() {
+  useOnlineManager();
+
+  useAppState(onAppStateChange);
+
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
