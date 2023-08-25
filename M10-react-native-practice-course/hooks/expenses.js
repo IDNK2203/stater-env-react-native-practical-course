@@ -1,5 +1,5 @@
 import httpInstance from "../httpClient/client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 function transfromResponse(response, expensesList) {
   for (const key in response.data) {
@@ -35,26 +35,37 @@ export const useDeleteExpense = async (id) => {
   }
 };
 
-export const usePostExpense = async (data) => {
-  try {
-    const expense = await httpInstance.post("expenses.json", data);
-    return expense;
-  } catch (error) {
-    throw error;
-  }
+export const usePostExpense = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        return await httpInstance.post("expensesjson", data);
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    onSuccess: (responsedata, variables) => {
+      queryClient.setQueryData(["expenses"], (oldData) => [
+        ...oldData,
+        { ...variables, id: responsedata.data.name },
+      ]);
+    },
+  });
 };
 
 export const useGetExpense = () => {
   return useQuery({
     queryKey: ["expenses"],
     queryFn: async () => {
-      try {
-        const response = await httpInstance.get("expenses.json");
-        const expensesList = transfromResponse(response, []);
-        return expensesList;
-      } catch (error) {
-        throw error;
-      }
+      // try {
+      const response = await httpInstance.get("expenses.json");
+      return transfromResponse(response, []);
+      //  const expensesList =  expensesList;
+      // } catch (error) {
+      //   throw error;
+      // }
     },
   });
 };

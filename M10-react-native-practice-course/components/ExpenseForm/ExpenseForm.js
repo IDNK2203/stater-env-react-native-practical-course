@@ -11,10 +11,8 @@ import Button from "../Button";
 import { colorPallete } from "../../utils/colors";
 import { useExpenseContext } from "../../store/expenseContext";
 import { useState } from "react";
-import { formatDateInput, getFormattedDate } from "../../utils/date";
+import { getFormattedDate } from "../../utils/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
-// import { usePostExpense } from "../../hooks/expenses";
-// import Loader from "../Loader";
 
 const ExpenseForm = ({
   formMode,

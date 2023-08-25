@@ -13,8 +13,10 @@ import Loader from "../components/Loader";
 import ErrorOverlay from "../components/ErrorOverlay";
 
 const ManageExpense = ({ navigation, route }) => {
-  const [isFetching, setIsFetching] = useState(false);
-  const [isError, setIsError] = useState({ error: false, message: "" });
+  const { mutate, error, isError, status } = usePostExpense();
+  console.log(error, isError, status);
+  // const [isFetching, setIsFetching] = useState(false);
+  // const [isError, setIsError] = useState({ error: false, message: "" });
 
   const { dispatch } = useExpenseContext();
   const expenseId = route.params?.expenseId;
@@ -33,19 +35,10 @@ const ManageExpense = ({ navigation, route }) => {
     }
   };
   const onAddHandler = async (submissionData) => {
-    try {
-      setIsFetching(true);
-      const data = await usePostExpense(submissionData);
-      dispatch({
-        type: "ADD_EXPENSE",
-        payload: { ...submissionData, id: data.data.name },
-      });
-      navigation.goBack();
-    } catch (error) {
-      setIsError((e) => ({ error: true, message: error.message }));
-    } finally {
-      setIsFetching(false);
-    }
+    mutate(submissionData, {
+      onSuccess: navigation.goBack(),
+      onError: console.log("an error occured"),
+    });
   };
 
   const onUpdateHandler = async (submissionData) => {
@@ -83,31 +76,28 @@ const ManageExpense = ({ navigation, route }) => {
     });
   }, [formMode, navigation]);
 
-  if (!isFetching && isError.error) {
+  if (isError) {
     return (
       <ErrorOverlay
         eventHandler={() => {
           navigation.navigate("AllExpenses");
         }}
-        title={isError.message}
+        title={error.message}
         // message={isError.status}
       />
     );
   }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        {isFetching ? (
-          <Loader />
-        ) : (
-          <ExpenseForm
-            formMode={formMode}
-            expenseId={expenseId}
-            onUpdateHandler={onUpdateHandler}
-            onAddHandler={onAddHandler}
-            onCancelHandler={onCancelHandler}
-          />
-        )}
+        <ExpenseForm
+          formMode={formMode}
+          expenseId={expenseId}
+          onUpdateHandler={onUpdateHandler}
+          onAddHandler={onAddHandler}
+          onCancelHandler={onCancelHandler}
+        />
       </ScrollView>
     </View>
   );

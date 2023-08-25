@@ -11,6 +11,7 @@ import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
 const RecentExpenses = () => {
   const { status, data, error, isFetching, refetch } = useGetExpense();
   const navigation = useNavigation();
+
   useRefreshOnFocus(refetch);
   const recentExpenses = data?.filter((expense) => {
     const today = new Date();
@@ -35,11 +36,14 @@ const RecentExpenses = () => {
   }
 
   return (
-    <ExpenseOutpt
-      expenses={recentExpenses}
-      fallbackText='No expenses registered for the last 7 days.'
-      expensePeriod={"Last 7 Days"}
-    />
+    <>
+      {isFetching && <Loader fullScreen={false} />}
+      <ExpenseOutpt
+        expenses={recentExpenses}
+        fallbackText='No expenses registered for the last 7 days.'
+        expensePeriod={"Last 7 Days"}
+      />
+    </>
   );
 };
 
