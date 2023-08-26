@@ -13,8 +13,9 @@ import Loader from "../components/Loader";
 import ErrorOverlay from "../components/ErrorOverlay";
 
 const ManageExpense = ({ navigation, route }) => {
-  const { mutate, error, isError, status } = usePostExpense();
-  console.log(error, isError, status);
+  const { mutate, error, status } = usePostExpense();
+  // const { mutate, error, status,  } = useUpdateExpense();
+  // const { mutate, error, status,  } = useDeleteExpense();
   // const [isFetching, setIsFetching] = useState(false);
   // const [isError, setIsError] = useState({ error: false, message: "" });
 
@@ -34,10 +35,9 @@ const ManageExpense = ({ navigation, route }) => {
       setIsFetching(false);
     }
   };
-  const onAddHandler = async (submissionData) => {
+  const onAddHandler = (submissionData) => {
     mutate(submissionData, {
-      onSuccess: navigation.goBack(),
-      onError: console.log("an error occured"),
+      onSuccess: () => navigation.goBack(),
     });
   };
 
