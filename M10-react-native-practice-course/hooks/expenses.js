@@ -17,14 +17,15 @@ function transfromResponse(response, expensesList) {
 export const useUpdateExpense = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data, id) => {
-      const response = httpInstance.put(`expenses/${id}.json`, data);
+    mutationFn: async (data) => {
+      const response = httpInstance.put(`expenses/${data.id}.json`, data);
       return transfromResponse(response, []);
     },
     onSuccess: (responsedata, variables) => {
-      queryClient.setQueryData(
-        ["expenses", { id: variables.id }],
-        (oldData) => [...oldData, { ...variables, id: responsedata.data.name }]
+      queryClient.setQueryData(["expenses", { id: variables.id }], (oldData) =>
+        oldData
+          ? { ...oldData, ...variables, id: responsedata.data.name }
+          : oldData
       );
     },
   });
@@ -37,9 +38,9 @@ export const useDeleteExpense = () => {
       return await httpInstance.delete(`expenses/${id}.json`);
     },
     onSuccess: (_responsedata, id) => {
-      queryClient.setQueryData(["expenses"], (oldData) => ({
+      queryClient.setQueryData(["expenses"], (oldData) => [
         ...oldData.filter((item) => id !== item.id),
-      }));
+      ]);
     },
   });
 };

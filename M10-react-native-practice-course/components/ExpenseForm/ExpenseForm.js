@@ -13,6 +13,7 @@ import { useExpenseContext } from "../../store/expenseContext";
 import { useState } from "react";
 import { getFormattedDate } from "../../utils/date";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ExpenseForm = ({
   formMode,
@@ -21,8 +22,11 @@ const ExpenseForm = ({
   onUpdateHandler,
   onAddHandler,
 }) => {
-  const { state } = useExpenseContext();
-  const expense = state.expenses.find((el) => el.id === expenseId);
+  const queryClient = useQueryClient();
+  const expense = queryClient
+    .getQueryData(["expenses"])
+    .find((el) => el.id === expenseId);
+
   const [isPickerShow, setIsPickerShow] = useState(false);
   const present = Date.now();
 

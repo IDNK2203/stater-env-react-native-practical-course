@@ -1,60 +1,40 @@
-import { useLayoutEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useLayoutEffect } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import IconButton from "../components/IconButton";
 import { colorPallete } from "../utils/colors";
-import { useExpenseContext } from "../store/expenseContext";
 import ExpenseForm from "../components/ExpenseForm/ExpenseForm";
 import {
   useDeleteExpense,
   usePostExpense,
   useUpdateExpense,
 } from "../hooks/expenses";
-import Loader from "../components/Loader";
+// import Loader from "../components/Loader";
 import ErrorOverlay from "../components/ErrorOverlay";
 
 const ManageExpense = ({ navigation, route }) => {
-  const { mutate, error, status } = usePostExpense();
-  // const { mutate, error, status,  } = useUpdateExpense();
-  // const { mutate, error, status,  } = useDeleteExpense();
-  // const [isFetching, setIsFetching] = useState(false);
-  // const [isError, setIsError] = useState({ error: false, message: "" });
+  const { mutate: postMutation, error: postError } = usePostExpense();
+  const { mutate: updateMutation, error: updateError } = useUpdateExpense();
+  const { mutate: deleteMutation, error: deleteError } = useDeleteExpense();
 
-  const { dispatch } = useExpenseContext();
+  // const { dispatch } = useExpenseContext();
   const expenseId = route.params?.expenseId;
   const formMode = !!expenseId;
 
-  const onDeleteHandler = async () => {
-    try {
-      setIsFetching(true);
-      await useDeleteExpense(expenseId);
-      dispatch({ type: "DELETE_EXPENSE", payload: { id: expenseId } });
-      navigation.goBack();
-    } catch (error) {
-      setIsError((e) => ({ error: true, message: error.message }));
-    } finally {
-      setIsFetching(false);
-    }
+  const onDeleteHandler = () => {
+    deleteMutation(expenseId, {
+      onSuccess: () => navigation.goBack(),
+    });
   };
   const onAddHandler = (submissionData) => {
-    mutate(submissionData, {
+    postMutation(submissionData, {
       onSuccess: () => navigation.goBack(),
     });
   };
 
   const onUpdateHandler = async (submissionData) => {
-    try {
-      setIsFetching(true);
-      const data = await useUpdateExpense(submissionData, expenseId);
-      dispatch({
-        type: "UPDATE_EXPENSE",
-        payload: submissionData,
-      });
-      navigation.goBack();
-    } catch (error) {
-      setIsError((e) => ({ error: true, message: error.message }));
-    } finally {
-      setIsFetching(false);
-    }
+    updateMutation(submissionData, {
+      onSuccess: () => navigation.goBack(),
+    });
   };
 
   const onCancelHandler = () => {
@@ -76,13 +56,20 @@ const ManageExpense = ({ navigation, route }) => {
     });
   }, [formMode, navigation]);
 
-  if (isError) {
+  if (postError || updateError || deleteError) {
+    const errorMsg = postError
+      ? postError.message
+      : updateError
+      ? updateError.message
+      : deleteError
+      ? deleteError.message
+      : "no error";
     return (
       <ErrorOverlay
         eventHandler={() => {
           navigation.navigate("AllExpenses");
         }}
-        title={error.message}
+        title={errorMsg}
         // message={isError.status}
       />
     );
