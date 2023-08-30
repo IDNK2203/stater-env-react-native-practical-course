@@ -100,8 +100,8 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <StatusBar style='light' />
       <NavigationContainer>
-        <StatusBar style='light' />
         <ExpenseContextProvider>
           <Stack.Navigator
             screenOptions={{

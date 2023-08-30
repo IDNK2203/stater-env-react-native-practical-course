@@ -13,6 +13,8 @@ import {
 } from "@tanstack/react-query";
 import { useAppState } from "./hooks/useAppState";
 import { useOnlineManager } from "./hooks/useOnlineManager";
+import { AuthContextProvider, useAuthContext } from "./store/authContext";
+import IconButton from "./components/ui/IconButton";
 // Create a client
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
@@ -40,6 +42,7 @@ function AuthStack() {
 }
 
 function AuthenticatedStack() {
+  const { dispatch } = useAuthContext();
   return (
     <Stack.Navigator
       screenOptions={{
@@ -48,15 +51,34 @@ function AuthenticatedStack() {
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
-      <Stack.Screen name='Welcome' component={WelcomeScreen} />
+      <Stack.Screen
+        name='Welcome'
+        component={WelcomeScreen}
+        options={({ navigation }) => ({
+          headerRight: ({ tintColor }) => (
+            <IconButton
+              icon={"exit"}
+              size={24}
+              color={tintColor}
+              onPress={() => {
+                dispatch({
+                  type: "LOGOUT",
+                });
+              }}
+            />
+          ),
+        })}
+      />
     </Stack.Navigator>
   );
 }
 
 function Navigation() {
+  const { state } = useAuthContext();
+
   return (
     <NavigationContainer>
-      <AuthStack />
+      {state.isAuthenticated ? <AuthenticatedStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
@@ -68,11 +90,12 @@ export default function App() {
 
   return (
     <>
-      {" "}
       <QueryClientProvider client={queryClient}>
-        <StatusBar style='light' />
+        <AuthContextProvider>
+          <StatusBar style='light' />
 
-        <Navigation />
+          <Navigation />
+        </AuthContextProvider>
       </QueryClientProvider>
     </>
   );
