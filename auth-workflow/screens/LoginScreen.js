@@ -3,8 +3,11 @@ import AuthContent from "../components/Auth/AuthContent";
 import { useLogin } from "../hooks/auth";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { useAuthContext } from "../store/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { useStorage } from "../store/useStorage";
 
 function LoginScreen({ navigation }) {
+  // const [token, setToken] = useStorage("token");
   const { dispatch, state } = useAuthContext();
   const {
     mutate: loginMutation,
@@ -12,6 +15,15 @@ function LoginScreen({ navigation }) {
     status,
     error: LoginError,
   } = useLogin();
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("token", value);
+    } catch (e) {
+      // saving error
+      throw e;
+    }
+  };
 
   const loginHandler = (data) => {
     loginMutation(data, {
@@ -21,9 +33,11 @@ function LoginScreen({ navigation }) {
           type: "SIGNIN_LOGIN",
           payload: {
             email: data.data.email,
-            accessToken: data?.data?.accessToken,
+            accessToken: data?.data?.idToken,
           },
         });
+        storeData(data?.data?.idToken);
+
         // navigation.navigate("Welcome");
       },
     });
@@ -39,7 +53,6 @@ function LoginScreen({ navigation }) {
 
   return (
     <>
-      <Text>email: {state?.user?.email}</Text>
       <AuthContent isLogin onAuthenticate={loginHandler} />
     </>
   );

@@ -1,7 +1,6 @@
 import httpInstance from "../httpClient/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_KEY } from "@env";
-console.log(API_KEY);
 
 export const useSignup = () => {
   const queryClient = useQueryClient();

@@ -15,7 +15,15 @@ import { useAppState } from "./hooks/useAppState";
 import { useOnlineManager } from "./hooks/useOnlineManager";
 import { AuthContextProvider, useAuthContext } from "./store/authContext";
 import IconButton from "./components/ui/IconButton";
+// import { useStorage } from "./store/useStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthCheck from "./components/AuthCheck";
+import * as SplashScreen from "expo-splash-screen";
+
 // Create a client
+
+SplashScreen.preventAutoHideAsync();
+
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
 
@@ -35,14 +43,28 @@ function AuthStack() {
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
-      <Stack.Screen name='Login' component={LoginScreen} />
-      <Stack.Screen name='Signup' component={SignupScreen} />
+      <Stack.Screen name='Login'>
+        {(props) => <AuthCheck children={<LoginScreen {...props} />} />}
+      </Stack.Screen>
+      <Stack.Screen name='Signup'>
+        {(props) => <AuthCheck children={<SignupScreen {...props} />} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
 
 function AuthenticatedStack() {
   const { dispatch } = useAuthContext();
+  // const [token, setToken] = useStorage("token");
+
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem("token");
+    } catch (e) {
+      // remove error
+      throw e;
+    }
+  };
   return (
     <Stack.Navigator
       screenOptions={{
@@ -53,7 +75,7 @@ function AuthenticatedStack() {
     >
       <Stack.Screen
         name='Welcome'
-        component={WelcomeScreen}
+        // component={WelcomeScreen}
         options={({ navigation }) => ({
           headerRight: ({ tintColor }) => (
             <IconButton
@@ -64,11 +86,14 @@ function AuthenticatedStack() {
                 dispatch({
                   type: "LOGOUT",
                 });
+                removeValue();
               }}
             />
           ),
         })}
-      />
+      >
+        {(props) => <AuthCheck children={<WelcomeScreen {...props} />} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
@@ -85,15 +110,13 @@ function Navigation() {
 
 export default function App() {
   useOnlineManager();
-
   useAppState(onAppStateChange);
 
   return (
     <>
+      <StatusBar style='light' />
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
-          <StatusBar style='light' />
-
           <Navigation />
         </AuthContextProvider>
       </QueryClientProvider>
