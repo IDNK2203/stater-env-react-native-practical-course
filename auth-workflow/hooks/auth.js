@@ -1,4 +1,4 @@
-import httpInstance from "../httpClient/client";
+import { httpInstance } from "../httpClient/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_KEY } from "@env";
 
@@ -13,9 +13,9 @@ export const useSignup = () => {
     },
     onError: (error) => {
       console.log(error.response.data);
+      console.log(error.response.message);
       console.log(error.response.status);
       // console.log(error.response.headers);
-      console.log(error.response.message);
 
       console.log(error.request);
     },

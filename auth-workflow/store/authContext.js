@@ -7,7 +7,11 @@ const initialState = {
   user: {
     email: null,
   },
-  accessToken: null,
+  // token: {
+  //   acesss: "",
+  //   refresh: "",
+  //   issAt: null,
+  // },
 };
 
 // Create Our context

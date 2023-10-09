@@ -15,10 +15,9 @@ import { useAppState } from "./hooks/useAppState";
 import { useOnlineManager } from "./hooks/useOnlineManager";
 import { AuthContextProvider, useAuthContext } from "./store/authContext";
 import IconButton from "./components/ui/IconButton";
-// import { useStorage } from "./store/useStorage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthCheck from "./components/AuthCheck";
 import * as SplashScreen from "expo-splash-screen";
+import { removeValue } from "./asyncStore/store";
 
 // Create a client
 
@@ -55,16 +54,7 @@ function AuthStack() {
 
 function AuthenticatedStack() {
   const { dispatch } = useAuthContext();
-  // const [token, setToken] = useStorage("token");
 
-  const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem("token");
-    } catch (e) {
-      // remove error
-      throw e;
-    }
-  };
   return (
     <Stack.Navigator
       screenOptions={{
@@ -86,7 +76,7 @@ function AuthenticatedStack() {
                 dispatch({
                   type: "LOGOUT",
                 });
-                removeValue();
+                removeValue("token");
               }}
             />
           ),

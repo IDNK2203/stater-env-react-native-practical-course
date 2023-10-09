@@ -5,9 +5,13 @@ const reducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         user: {
-          email: action.payload.email,
+          email: action?.payload?.email,
         },
-        accessToken: action.payload.accessToken,
+        // token: {
+        //   acesss: action.payload.access,
+        //   refresh: action.payload.refresh,
+        //   issAt: action.payload.issAt,
+        // },
       };
 
     case "LOGOUT":
@@ -15,7 +19,7 @@ const reducer = (state, action) => {
         ...state,
         isAuthenticated: false,
         user: null,
-        accessToken: null,
+        // token: null,
       };
 
     default:

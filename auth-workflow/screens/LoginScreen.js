@@ -3,42 +3,28 @@ import AuthContent from "../components/Auth/AuthContent";
 import { useLogin } from "../hooks/auth";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { useAuthContext } from "../store/authContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { useStorage } from "../store/useStorage";
+import { storeData } from "../asyncStore/store";
 
 function LoginScreen({ navigation }) {
-  // const [token, setToken] = useStorage("token");
-  const { dispatch, state } = useAuthContext();
-  const {
-    mutate: loginMutation,
-    isLoading,
-    status,
-    error: LoginError,
-  } = useLogin();
-
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem("token", value);
-    } catch (e) {
-      // saving error
-      throw e;
-    }
-  };
+  const { dispatch } = useAuthContext();
+  const { mutate: loginMutation, isLoading, error: LoginError } = useLogin();
 
   const loginHandler = (data) => {
     loginMutation(data, {
       onSuccess: (data) => {
-        // console.log(data.data);
+        console.log(data);
+        const tokenObj = {
+          access: data?.data?.idToken,
+          refresh: data?.data?.refreshToken,
+          issAt: Date.now(),
+        };
         dispatch({
           type: "SIGNIN_LOGIN",
           payload: {
             email: data.data.email,
-            accessToken: data?.data?.idToken,
           },
         });
-        storeData(data?.data?.idToken);
-
-        // navigation.navigate("Welcome");
+        storeData("token", tokenObj);
       },
     });
   };
@@ -48,7 +34,7 @@ function LoginScreen({ navigation }) {
   }
 
   if (LoginError) {
-    Alert.alert("Authentication Failed", "Please check your email or password");
+    Alert.alert("Authentication Failed", LoginError.message);
   }
 
   return (

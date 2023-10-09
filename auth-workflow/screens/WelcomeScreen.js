@@ -1,23 +1,28 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { restrictedAxios } from "../httpClient/client";
 import { useAuthContext } from "../store/authContext";
 
 function WelcomeScreen() {
-  const { state } = useAuthContext();
+  const { dispatch } = useAuthContext();
   const { data, isSuccess, isError, error } = useQuery({
     queryKey: ["msg"],
     queryFn: async () => {
-      const response = await axios.get(
-        "https://rn-practical-course-default-rtdb.europe-west1.firebasedatabase.app/message.json?auth=" +
-          state.accessToken
-      );
+      const response = await restrictedAxios.get("message.json");
       return response.data;
     },
+    retry: false,
   });
 
-  if (isError) {
+  if (isError && error.falseAuthState) {
+    setTimeout(() => {
+      dispatch({
+        type: "LOGOUT",
+      });
+    }, 2000);
     Alert.alert("Access Denied", error.message);
+  } else if (isError) {
+    Alert.alert("Access Denied", error.response.message);
   }
 
   return (
