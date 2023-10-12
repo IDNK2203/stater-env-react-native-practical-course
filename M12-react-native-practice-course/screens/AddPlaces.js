@@ -1,4 +1,4 @@
-import PlaceForm from "../components/PlaceForm";
+import PlaceForm from "../components/places/PlaceForm";
 
 const AddPlaces = () => {
   return <PlaceForm />;
