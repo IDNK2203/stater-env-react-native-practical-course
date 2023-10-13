@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   input: {
-    paddingHorizontal: 4,
-    fontSize: 16,
+    paddingHorizontal: 16,
+    fontSize: 18,
     paddingVertical: 8,
     marginVertical: 4,
     backgroundColor: Colors.primary200,
