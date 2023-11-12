@@ -18,7 +18,7 @@ const Map = () => {
       Alert.alert("Error Saving", "Pick a location");
       return;
     }
-    navigation.navigate("AddPlaces", { selectedLocation });
+    navigation.navigate("AddPlaces", selectedLocation);
   }, [navigation, selectedLocation]);
 
   useLayoutEffect(() => {

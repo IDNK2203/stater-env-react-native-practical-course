@@ -12,12 +12,24 @@ import { Colors } from "../../constants/colors";
 import CButton from "../app-ui/CButton";
 import * as Location from "expo-location";
 import getLocationImage from "../../utils/LocationImage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function LocationPicker() {
   const navigate = useNavigation();
+  const router = useRoute();
   const [userLocation, setUserLocation] = useState(null);
   const [status, requestPermission] = Location.useForegroundPermissions();
+
+  console.log(router.params);
+
+  useEffect(() => {
+    if (router.params) {
+      setUserLocation({
+        lat: router.params.latitude,
+        long: router.params.longitude,
+      });
+    }
+  }, [router.params]);
 
   const confirmLocationPermission = async () => {
     if (status.status === Location.PermissionStatus.UNDETERMINED) {
@@ -55,7 +67,7 @@ export default function LocationPicker() {
         lat: location.coords.latitude,
         long: location.coords.longitude,
       });
-      console.log(location);
+      // console.log(location);
     } catch (error) {
       console.log(error);
     }
