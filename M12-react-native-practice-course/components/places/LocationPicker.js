@@ -14,17 +14,21 @@ import * as Location from "expo-location";
 import getLocationImage from "../../utils/LocationImage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-export default function LocationPicker() {
+export default function LocationPicker({ userLocationHandler }) {
   const navigate = useNavigation();
   const router = useRoute();
   const [userLocation, setUserLocation] = useState(null);
   const [status, requestPermission] = Location.useForegroundPermissions();
 
-  console.log(router.params);
+  // console.log(router.params);
 
   useEffect(() => {
     if (router.params) {
       setUserLocation({
+        lat: router.params.latitude,
+        long: router.params.longitude,
+      });
+      userLocationHandler({
         lat: router.params.latitude,
         long: router.params.longitude,
       });
@@ -67,6 +71,11 @@ export default function LocationPicker() {
         lat: location.coords.latitude,
         long: location.coords.longitude,
       });
+      userLocationHandler({
+        lat: location.coords.latitude,
+        long: location.coords.longitude,
+      });
+
       // console.log(location);
     } catch (error) {
       console.log(error);
@@ -81,7 +90,7 @@ export default function LocationPicker() {
     <Text style={styles.imgFallback}>Select your location</Text>
   );
   if (userLocation) {
-    console.log(getLocationImage(userLocation));
+    // console.log(getLocationImage(userLocation));
     imageContent = (
       <Image
         source={{ uri: getLocationImage(userLocation) }}

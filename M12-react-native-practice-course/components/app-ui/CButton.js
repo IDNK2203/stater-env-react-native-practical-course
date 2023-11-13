@@ -8,7 +8,7 @@ const CButton = ({ color, icon, onPress, children }) => {
       style={({ pressed }) => [styles.btnBox, pressed && styles.pressed]}
       onPress={onPress}
     >
-      <Ionicons name={icon} size={24} color={color} />
+      {icon && <Ionicons name={icon} size={24} color={color} />}
       <Text style={{ ...styles.btnText, color: color }}>{children}</Text>
     </Pressable>
   );

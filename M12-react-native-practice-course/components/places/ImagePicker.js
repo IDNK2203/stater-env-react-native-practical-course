@@ -12,7 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Colors } from "../../constants/colors";
 import CButton from "../app-ui/CButton";
 
-export default function ImagePicker_() {
+export default function ImagePicker_({ imagePickerHandler }) {
   const [image, setImage] = useState(null);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
@@ -57,6 +57,7 @@ export default function ImagePicker_() {
       console.log(result);
 
       if (!result.canceled) {
+        imagePickerHandler(result.assets[0].uri);
         setImage(result.assets[0].uri);
       }
     } catch (error) {

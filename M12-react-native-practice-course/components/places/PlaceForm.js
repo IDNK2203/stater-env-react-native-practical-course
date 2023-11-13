@@ -4,23 +4,48 @@ import { Colors } from "../../constants/colors";
 import { useState } from "react";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
+import CButton from "../app-ui/CButton";
 
 const PlaceForm = () => {
   const [titleInp, setTitleInp] = useState("");
+  const [camImage, setcamImage] = useState("");
+  const [userLocation, setuserLocation] = useState(null);
+
   const handleTitleInp = (e) => {
-    setTitleInp(e.target.value);
+    console.log(titleInp);
+    setTitleInp(e);
   };
+
+  const imagePickerHandler = (data) => {
+    setcamImage(data);
+  };
+  const userLocationHandler = (data) => {
+    setuserLocation(data);
+  };
+  const sumbitFormHandler = () => {
+    console.log(titleInp);
+    console.log(camImage);
+    console.log(userLocation);
+  };
+
   return (
     <ScrollView>
       <View style={styles.form}>
         <Text style={styles.label}>Title</Text>
         <TextInput
           style={styles.input}
-          onChange={handleTitleInp}
+          onChangeText={handleTitleInp}
           value={titleInp}
         />
-        <ImagePicker />
-        <LocationPicker />
+        <ImagePicker imagePickerHandler={imagePickerHandler} />
+        <LocationPicker userLocationHandler={userLocationHandler} />
+        <CButton
+          color={Colors.primary500}
+          icon={false}
+          onPress={sumbitFormHandler}
+        >
+          Sumbit
+        </CButton>
       </View>
     </ScrollView>
   );
