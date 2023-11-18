@@ -13,6 +13,7 @@ import CButton from "../app-ui/CButton";
 import * as Location from "expo-location";
 import getLocationImage from "../../utils/LocationImage";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import getReadableAddress from "../../utils/getAddress";
 
 export default function LocationPicker({ userLocationHandler }) {
   const navigate = useNavigation();
@@ -23,15 +24,19 @@ export default function LocationPicker({ userLocationHandler }) {
   // console.log(router.params);
 
   useEffect(() => {
-    if (router.params) {
+    async function setLocationWrapper(params) {
+      const location = await getReadableAddress(
+        params.latitude,
+        params.longitude
+      );
       setUserLocation({
-        lat: router.params.latitude,
-        long: router.params.longitude,
+        lat: params.latitude,
+        long: params.longitude,
       });
-      userLocationHandler({
-        lat: router.params.latitude,
-        long: router.params.longitude,
-      });
+      userLocationHandler(location);
+    }
+    if (router.params) {
+      setLocationWrapper(router.params);
     }
   }, [router.params]);
 
@@ -67,14 +72,15 @@ export default function LocationPicker({ userLocationHandler }) {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
+      const locationAdd = await getReadableAddress(
+        location.coords.latitude,
+        location.coords.longitude
+      );
       setUserLocation({
         lat: location.coords.latitude,
         long: location.coords.longitude,
       });
-      userLocationHandler({
-        lat: location.coords.latitude,
-        long: location.coords.longitude,
-      });
+      userLocationHandler(locationAdd);
 
       // console.log(location);
     } catch (error) {

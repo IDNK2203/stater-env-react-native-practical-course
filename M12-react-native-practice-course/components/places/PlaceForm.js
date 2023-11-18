@@ -5,14 +5,14 @@ import { useState } from "react";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import CButton from "../app-ui/CButton";
+import Place from "../../models/place";
 
-const PlaceForm = () => {
+const PlaceForm = ({ createPlace }) => {
   const [titleInp, setTitleInp] = useState("");
   const [camImage, setcamImage] = useState("");
   const [userLocation, setuserLocation] = useState(null);
 
   const handleTitleInp = (e) => {
-    console.log(titleInp);
     setTitleInp(e);
   };
 
@@ -23,9 +23,8 @@ const PlaceForm = () => {
     setuserLocation(data);
   };
   const sumbitFormHandler = () => {
-    console.log(titleInp);
-    console.log(camImage);
-    console.log(userLocation);
+    const placeData = new Place(titleInp, camImage, userLocation);
+    createPlace(placeData);
   };
 
   return (
