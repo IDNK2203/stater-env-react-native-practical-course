@@ -1,14 +1,33 @@
 import MapView, { Marker } from "react-native-maps";
 import { Alert, StyleSheet, View } from "react-native";
 import { useCallback, useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import IconButton from "../components/app-ui/IconButton";
 
-const Map = () => {
-  let [selectedLocation, setSelectedLocation] = useState(null);
-  const navigation = useNavigation();
+const Map = ({ navigation, route }) => {
+  console.log(route.params);
+  const initLoaction = route.params?.location;
+  let [selectedLocation, setSelectedLocation] = useState(
+    initLoaction && {
+      latitude: initLoaction?.lat,
+      longitude: initLoaction?.long,
+    }
+  );
+  const intiRegion = initLoaction
+    ? {
+        latitude: initLoaction.lat,
+        longitude: initLoaction.long,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }
+    : {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      };
 
   const mapViewHandler = (e) => {
+    if (initLoaction) return;
     let { latitude, longitude } = e.nativeEvent.coordinate;
     setSelectedLocation({ latitude, longitude });
   };
@@ -22,6 +41,7 @@ const Map = () => {
   }, [navigation, selectedLocation]);
 
   useLayoutEffect(() => {
+    if (initLoaction) return;
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
         <IconButton
@@ -37,22 +57,12 @@ const Map = () => {
   return (
     <View style={styles.container}>
       <MapView
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        initialRegion={intiRegion}
         style={styles.map}
         onPress={mapViewHandler}
       >
         {selectedLocation && (
-          <Marker
-            draggable
-            onDragEnd={mapViewHandler}
-            coordinate={selectedLocation}
-            title='The Location'
-          />
+          <Marker coordinate={selectedLocation} title='The Location' />
         )}
       </MapView>
     </View>

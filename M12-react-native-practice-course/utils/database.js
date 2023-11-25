@@ -70,7 +70,7 @@ export function fetchPlacesInDb(place) {
               el.id
             );
           });
-          console.log("\n", result, result.rows._array, places);
+          // console.log("\n", result, result.rows._array, places);
           resolve(places);
         },
         (_, error) => {
@@ -81,4 +81,30 @@ export function fetchPlacesInDb(place) {
   });
 
   return placesPromise;
+}
+
+export function fetchPlaceByIdDB(id) {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM places WHERE id = ?`,
+        [id],
+        (_, result) => {
+          const DBplace = result.rows._array[0];
+          const place = new Place(
+            DBplace.title,
+            DBplace.imageUri,
+            { address: DBplace.address, lat: DBplace.lat, long: DBplace.lng },
+            DBplace.id
+          );
+          resolve(place);
+        },
+        (_, error) => {
+          console.log("Testing Query Failure");
+          reject(error);
+        }
+      );
+    });
+  });
+  return promise;
 }
